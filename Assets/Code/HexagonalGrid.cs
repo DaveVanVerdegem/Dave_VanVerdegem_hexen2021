@@ -14,14 +14,13 @@ public class HexagonalGrid
 
 	#region Fields
 	private int _radius = 3;
-	private List<Hexagon> _hexagons;
+	public List<Hexagon> Hexagons { get; private set; }
 	#endregion
 
 	#region Methods
 	public void GenerateGrid(Hexagon center)
 	{
-		_hexagons = new List<Hexagon>();
-		_hexagons.Add(center);
+		Hexagons = new List<Hexagon>();
 
 		for (int q = -_radius; q <= _radius; q++)
 		{
@@ -30,7 +29,7 @@ public class HexagonalGrid
 
 			for (int r = r1; r <= r2; r++)
 			{
-				_hexagons.Add(new Hexagon(q, r, - q - r));
+				Hexagons.Add(new Hexagon(q, r, - q - r));
 			}
 		}
 	}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridObject : MonoBehaviour
 {
 	#region Inspector Fields
-
+	[SerializeField] private GameObject _hexagonPrefab = null;
 	#endregion
 
 	#region Properties
@@ -21,10 +21,11 @@ public class GridObject : MonoBehaviour
 	{
 		_grid = new HexagonalGrid();
 		_grid.GenerateGrid(new Hexagon(0, 0, 0));
-	}
 
-	private void Update()
-	{
+		foreach(Hexagon hexagon in _grid.Hexagons)
+		{
+			Instantiate(_hexagonPrefab, hexagon.ToWorldPosition(), Quaternion.identity, transform);
+		}
 	}
 	#endregion
 

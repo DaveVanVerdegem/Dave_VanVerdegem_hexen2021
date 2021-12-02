@@ -354,5 +354,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 8697804554111713071, guid: b6afb443cf1bf414a8ab2c3fa4a641f0, type: 3}
+      propertyPath: _hexagonPrefab
+      value: 
+      objectReference: {fileID: 8061560152634582315, guid: d5bda0a189ad5be448b90dec83c17404, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6afb443cf1bf414a8ab2c3fa4a641f0, type: 3}

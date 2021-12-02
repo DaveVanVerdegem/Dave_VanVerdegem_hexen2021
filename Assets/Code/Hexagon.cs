@@ -139,4 +139,14 @@ public class Hexagon : IEquatable<Hexagon>
 		return Add(hexagon, hexagon.Direction(direction));
 	}
 	#endregion
+
+	#region Position Conversion
+	public Vector3 ToWorldPosition()
+	{
+		float x = Size * Mathf.Sqrt(3) * Q + Mathf.Sqrt(3) / 2 * R;
+		float y = Size * 3 / 2 * R;
+
+		return new Vector3(x, 0, y);
+	}
+	#endregion
 }
