@@ -13,14 +13,14 @@ public class GridObject : MonoBehaviour
 	#endregion
 
 	#region Fields
-
+	HexagonalGrid _grid = null;
 	#endregion
 
 	#region Life Cycle
 	private void Start()
 	{
-		HexagonalGrid grid = new HexagonalGrid();
-		grid.GenerateGrid(new Hexagon(0, 0, 0));
+		_grid = new HexagonalGrid();
+		_grid.GenerateGrid(new Hexagon(0, 0, 0));
 	}
 
 	private void Update()

@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Implementation following the guidelines at https://www.redblobgames.com/grids/hexagons/implementation.html
 /// </summary>
-
+[Serializable]
 public class Hexagon : IEquatable<Hexagon>
 {
 	#region Inspector Fields
@@ -32,7 +32,7 @@ public class Hexagon : IEquatable<Hexagon>
 	#endregion
 
 	#region Fields
-	private readonly Hexagon[] _directions =
+	private static Hexagon[] _directions =
 {
 		new Hexagon(1, 0, -1),
 		new Hexagon(1, -1, 0),
@@ -52,19 +52,6 @@ public class Hexagon : IEquatable<Hexagon>
 		Q = q;
 		R = r;
 		S = s;
-
-		if (_directions == null)
-		{
-			_directions =
-			{
-				new Hexagon(1, 0, -1),
-				new Hexagon(1, -1, 0),
-				new Hexagon(0, -1, 1),
-				new Hexagon(-1, 0, 1),
-				new Hexagon(-1, 1, 0),
-				new Hexagon(0, 1, -1),
-			};
-		}
 	}
 	#endregion
 
