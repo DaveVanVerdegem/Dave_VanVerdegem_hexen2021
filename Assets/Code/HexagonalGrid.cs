@@ -5,20 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public class HexagonalGrid 
 {
-	#region Inspector Fields
-	#endregion
-
 	#region Properties
-
+	public List<Hexagon> Hexagons { get; private set; }
 	#endregion
 
 	#region Fields
 	private int _radius = 3;
-	public List<Hexagon> Hexagons { get; private set; }
 	#endregion
 
 	#region Methods
-	public void GenerateGrid(Hexagon center)
+	public void GenerateGrid()
 	{
 		Hexagons = new List<Hexagon>();
 

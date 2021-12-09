@@ -9,10 +9,6 @@ using UnityEngine;
 [Serializable]
 public class Hexagon : IEquatable<Hexagon>
 {
-	#region Inspector Fields
-
-	#endregion
-
 	#region Properties
 	public int Q { get; }
 	public int R { get; }

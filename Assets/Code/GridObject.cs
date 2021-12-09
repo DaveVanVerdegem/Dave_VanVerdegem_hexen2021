@@ -20,7 +20,7 @@ public class GridObject : MonoBehaviour
 	private void Start()
 	{
 		_grid = new HexagonalGrid();
-		_grid.GenerateGrid(new Hexagon(0, 0, 0));
+		_grid.GenerateGrid();
 
 		foreach(Hexagon hexagon in _grid.Hexagons)
 		{
