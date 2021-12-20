@@ -1,3 +1,4 @@
+using DAE.HexenSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,9 +6,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace DAE.HexagonalSystem
+namespace DAE.GameSystem
 {
-	public class HexagonTile : MonoBehaviour, IPointerClickHandler
+	public class HexagonTile : MonoBehaviour, IPointerClickHandler, IPosition
 	{
 		#region Inspector Fields
 		[SerializeField] private UnityEvent OnActivate;

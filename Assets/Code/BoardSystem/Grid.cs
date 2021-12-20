@@ -1,5 +1,4 @@
 using DAE.Commons;
-using DAE.HexagonalSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,21 +11,21 @@ namespace DAE.BoardSystem
 	{
 		#region Fields
 		// TODO: Can this be simplified to <TTile, TPosition> ? (where TPosition : (int q, int r, int s))
-		private BidirectionalDictionary<TPosition, (int x, int y)> _positions = new BidirectionalDictionary<TPosition, (int x, int y)>(); 
+		private BidirectionalDictionary<TPosition, (int q, int r, int s)> _positions = new BidirectionalDictionary<TPosition, (int q, int r, int s)>(); 
 		#endregion
 
 		#region Methods
-		public void Register(TPosition position, int x, int y)
+		public void Register(TPosition position, int q, int r, int s)
 		{
-			_positions.Add(position, (x, y));
+			_positions.Add(position, (q, r, s));
 		}
 		#endregion
 
 		#region Return Methods
-		public bool TryGetPositionAt(int x, int y, out TPosition position)
-			=> _positions.TryGetKey((x, y), out position);
+		public bool TryGetPositionAt(int q, int r, int s, out TPosition position)
+			=> _positions.TryGetKey((q, r, s), out position);
 
-		public bool TryGetCoordinatesAt(TPosition position, out (int x, int y) coordinate)
+		public bool TryGetCoordinatesAt(TPosition position, out (int q, int r, int s) coordinate)
 			=> _positions.TryGetValue(position, out coordinate);
 
 		public List<TPosition> GetPositions()

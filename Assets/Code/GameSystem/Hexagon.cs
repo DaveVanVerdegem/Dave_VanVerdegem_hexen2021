@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DAE.HexagonalSystem
+namespace DAE.GameSystem
 {
 	// TODO: Convert to Monobehaviour.
 	/// <summary>
@@ -31,16 +31,6 @@ namespace DAE.HexagonalSystem
 		#endregion
 
 		#region Fields
-		private static Vector3Int[] _directions =
-	{
-		new Vector3Int(1, 0, -1),
-		new Vector3Int(1, -1, 0),
-		new Vector3Int(0, -1, 1),
-		new Vector3Int(-1, 0, 1),
-		new Vector3Int(-1, 1, 0),
-		new Vector3Int(0, 1, -1),
-	};
-
 		private readonly float _size = 1f;
 		#endregion
 
@@ -138,12 +128,7 @@ namespace DAE.HexagonalSystem
 
 		#region Neighbor Methods
 		public Vector3Int Direction(int direction /* 0 to 5 */)
-		{
-			if (direction < 0 && direction >= 6)
-				throw new ArgumentOutOfRangeException("Direction should be between 0 to 5.");
-
-			return _directions[direction];
-		}
+			=> Directions.Get(direction);
 
 		public static Hexagon Neighbour(Hexagon hexagon, int direction)
 		{

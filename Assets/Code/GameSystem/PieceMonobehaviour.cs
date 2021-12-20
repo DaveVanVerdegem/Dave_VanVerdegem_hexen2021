@@ -1,9 +1,9 @@
-using DAE.HexagonalSystem;
+using DAE.HexenSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DAE.HexenSystem
+namespace DAE.GameSystem
 {
 	/// <summary>
 	/// This is an empty container class to help us use generics with the Piece Monobehaviour class.

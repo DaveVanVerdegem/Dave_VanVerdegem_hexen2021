@@ -1,5 +1,4 @@
-﻿using DAE.HexagonalSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,82 +9,91 @@ using UnityEngine.EventSystems;
 
 namespace DAE.HexenSystem
 {
-	public class Piece<TPosition> : MonoBehaviour, IPointerClickHandler where TPosition: MonoBehaviour
+	public class Piece<TPosition> : MonoBehaviour, IPointerClickHandler where TPosition: MonoBehaviour, IPosition
 	{
 		#region Inspector Fields
 		[SerializeField]
 		private int _playerId;
 
-		[SerializeField]
-		private UnityEvent<bool> OnHighlight;
+		//[SerializeField]
+		//private UnityEvent<bool> OnHighlight;
 		#endregion
 
 		#region Properties
-		public int PlayerID { get; set; }
-		public event EventHandler<ActivateEventArgs> ActivationStatusChanged;
-		public event EventHandler<ClickEventArgs<TPosition>> Clicked;
+		public int PlayerID => _playerId;
 
-		public bool Activate
-		{
-			get => _activate;
-			set
-			{
-				_activate = value;
-				OnActivationStatusChanged(new ActivateEventArgs(_activate));
-			}
-		}
+		public event EventHandler<PieceEventArgs<TPosition>> Placed;
+		public event EventHandler<PieceEventArgs<TPosition>> Taken;
+		public event EventHandler<PieceEventArgs<TPosition>> Moved;
+
+		//public bool Highlight
+		//{
+		//	set
+		//	{
+		//		OnHighlight.Invoke(!value);
+		//	}
+		//}
+
+		public event EventHandler<ClickEventArgs<TPosition>> Clicked;
 		#endregion
 
 		#region Fields
 		internal bool _hasMoved { get; set; }
-
-		private bool _activate;
-		#endregion
-
-		#region Life Cycle
-		private void Start()
-		{
-			ActivationStatusChanged -= OnPieceActivationChanged;
-		}
-
-		private void OnDisable()
-		{
-			ActivationStatusChanged += OnPieceActivationChanged;
-		}
 		#endregion
 
 		#region Methods
-		public bool Highlight
+		internal void MoveTo(TPosition position)
 		{
-			set
-			{
-				OnHighlight.Invoke(!value);
-			}
+			OnMoved(new PieceEventArgs<TPosition>(position));
 		}
 
-		private void OnPieceActivationChanged(object source, ActivateEventArgs eventArgs)
+		internal void TakeFrom(TPosition position)
 		{
-			Debug.Log("ACTIVATED: " + eventArgs.Status);
+			OnTaken(new PieceEventArgs<TPosition>(position));
 		}
 
-		protected virtual void OnActivationStatusChanged(ActivateEventArgs eventArgs)
+		internal void PlaceAt(TPosition position)
 		{
-			EventHandler<ActivateEventArgs> handler = ActivationStatusChanged;
+			OnPlaced(new PieceEventArgs<TPosition>(position));
+		}
+
+		protected virtual void OnPlaced(PieceEventArgs<TPosition> eventArgs)
+		{
+			EventHandler<PieceEventArgs<TPosition>> handler = Placed;
 			handler?.Invoke(this, eventArgs);
+
+			transform.position = eventArgs.Position.transform.position;
+			gameObject.SetActive(true);
+		}
+
+		protected virtual void OnMoved(PieceEventArgs<TPosition> eventArgs)
+		{
+			EventHandler<PieceEventArgs<TPosition>> handler = Moved;
+			handler?.Invoke(this, eventArgs);
+
+			transform.position = eventArgs.Position.transform.position;
+		}
+
+		protected virtual void OnTaken(PieceEventArgs<TPosition> eventArgs)
+		{
+			EventHandler<PieceEventArgs<TPosition>> handler = Taken;
+			handler?.Invoke(this, eventArgs);
+
+			gameObject.SetActive(false);
 		}
 		#endregion
 
 		#region IPointerClickHandler
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			Debug.Log($"Clicked {gameObject.name}");
+			//Debug.Log($"Clicked {gameObject.name}");
 
 			OnClicked(new ClickEventArgs<TPosition>(this));
 		}
 
 		protected virtual void OnClicked(ClickEventArgs<TPosition> eventArgs)
 		{
-			EventHandler<ClickEventArgs<TPosition>> handler = Clicked;
+			var handler = Clicked;
 			handler?.Invoke(this, eventArgs);
 		}
 		#endregion
@@ -112,7 +120,7 @@ namespace DAE.HexenSystem
 		}
 	}
 
-	public class ClickEventArgs<TPosition> : EventArgs where TPosition : MonoBehaviour
+	public class ClickEventArgs<TPosition> : EventArgs where TPosition : MonoBehaviour, IPosition
 	{
 		public Piece<TPosition> Piece { get; }
 

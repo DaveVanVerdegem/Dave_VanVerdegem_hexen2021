@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DAE.HexagonalSystem
+namespace DAE.GameSystem
 {
 	public class HexagonalGrid
 	{

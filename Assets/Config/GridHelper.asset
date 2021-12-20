@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridRadius: 3
   HexagonPrefab: {fileID: 2516572000236959148, guid: d5bda0a189ad5be448b90dec83c17404, type: 3}
+  PlayerPiecePrefab: {fileID: 3112183685649213881, guid: afdc65b981295ef49bfb4e1bf5322bd6, type: 3}
+  EnemyPiecePrefab: {fileID: 258122636769429448, guid: e93f21a019191ec49a745b9a637f7552, type: 3}
