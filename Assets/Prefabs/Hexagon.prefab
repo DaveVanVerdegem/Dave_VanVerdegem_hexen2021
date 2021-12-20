@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7554916430318777503}
   - component: {fileID: 2516572000236959148}
+  - component: {fileID: 6853901187897852643}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -44,6 +45,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce52e30c69b59d64eb3be4da7c8a55f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 168887143046174795}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_material
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: 37d541714ab0eb3489ebd400ac0ad00f, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 168887143046174795}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_material
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: 9d10b0f74bb772d4a8e72e10150ca56f, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!64 &6853901187897852643
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8061560152634582315}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1542105095000166556, guid: 4d9954fdf847e32428c3dede524e8eb5, type: 3}
 --- !u!1001 &1556438251555210447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,6 +140,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 4d9954fdf847e32428c3dede524e8eb5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d10b0f74bb772d4a8e72e10150ca56f, type: 2}
     - target: {fileID: 919132149155446097, guid: 4d9954fdf847e32428c3dede524e8eb5, type: 3}
       propertyPath: m_Name
       value: Hexagon
@@ -104,5 +153,10 @@ PrefabInstance:
 --- !u!4 &1302434378143114020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4d9954fdf847e32428c3dede524e8eb5, type: 3}
+  m_PrefabInstance: {fileID: 1556438251555210447}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &168887143046174795 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 4d9954fdf847e32428c3dede524e8eb5, type: 3}
   m_PrefabInstance: {fileID: 1556438251555210447}
   m_PrefabAsset: {fileID: 0}
