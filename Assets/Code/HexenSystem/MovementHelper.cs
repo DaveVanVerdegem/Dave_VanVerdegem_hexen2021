@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace DAE.HexenSystem
 {
-	public class MovementHelper<TPosition> where TPosition : MonoBehaviour, IPosition
+	public class MovementHelper<TPosition> where TPosition : MonoBehaviour, ITile
 	{
 		#region Properties
 		public delegate bool Validator(Board<Piece<TPosition>, TPosition> board, Grid<TPosition> grid, Piece<TPosition> piece, TPosition toPosition);

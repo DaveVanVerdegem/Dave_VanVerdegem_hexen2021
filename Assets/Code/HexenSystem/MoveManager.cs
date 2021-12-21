@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace DAE.HexenSystem
 {
-	public class MoveManager<TPosition> where TPosition : MonoBehaviour, IPosition
+	public class MoveManager<TPosition> where TPosition : MonoBehaviour, ITile
 	{
 		#region Properties
 

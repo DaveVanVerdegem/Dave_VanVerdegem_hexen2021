@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DAE.HexenSystem.Moves
 {
-	class ConfigurableMove<TPosition> : MoveBase<TPosition> where TPosition : MonoBehaviour, IPosition
+	class ConfigurableMove<TPosition> : MoveBase<TPosition> where TPosition : MonoBehaviour, ITile
 	{
 		#region Properties
 		public delegate List<TPosition> PositionsCollector(Board<Piece<TPosition>, TPosition> board, Grid<TPosition> grid, Piece<TPosition> piece);

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DAE.HexenSystem.Moves
 {
-	abstract class MoveBase<TPosition> : IMove<TPosition> where TPosition : MonoBehaviour, IPosition
+	abstract class MoveBase<TPosition> : IMove<TPosition> where TPosition : MonoBehaviour, ITile
 	{
 		#region Fields
 		protected Board<Piece<TPosition>, TPosition> _board { get; }

@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace DAE.HexenSystem
 {
-	public class Piece<TPosition> : MonoBehaviour, IPointerClickHandler where TPosition: MonoBehaviour, IPosition
+	public class Piece<TPosition> : MonoBehaviour, IPointerClickHandler where TPosition: MonoBehaviour, ITile
 	{
 		#region Inspector Fields
 		[SerializeField]
@@ -120,7 +120,7 @@ namespace DAE.HexenSystem
 		}
 	}
 
-	public class ClickEventArgs<TPosition> : EventArgs where TPosition : MonoBehaviour, IPosition
+	public class ClickEventArgs<TPosition> : EventArgs where TPosition : MonoBehaviour, ITile
 	{
 		public Piece<TPosition> Piece { get; }
 

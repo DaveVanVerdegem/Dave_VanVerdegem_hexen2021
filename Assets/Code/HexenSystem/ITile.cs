@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAE.HexenSystem
 {
-    public interface IPosition
+    public interface ITile
     {
     }
 }

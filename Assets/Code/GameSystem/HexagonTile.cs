@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace DAE.GameSystem
 {
-	public class HexagonTile : MonoBehaviour, IPointerClickHandler, IPosition
+	public class HexagonTile : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IDropHandler, ITile
 	{
 		#region Inspector Fields
 		[SerializeField] private UnityEvent OnActivate;

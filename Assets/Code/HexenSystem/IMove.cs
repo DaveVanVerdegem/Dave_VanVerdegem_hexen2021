@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DAE.HexenSystem
 {
-	interface IMove<TPosition> where TPosition : MonoBehaviour, IPosition
+	interface IMove<TPosition> where TPosition : MonoBehaviour, ITile
 	{
 
 		bool CanExecute(Piece<TPosition> piece);
