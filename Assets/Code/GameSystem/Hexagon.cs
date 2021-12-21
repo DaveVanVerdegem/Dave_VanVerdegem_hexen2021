@@ -18,14 +18,10 @@ namespace DAE.GameSystem
 		public int S { get; }
 
 		public float Width
-		{
-			get { return Mathf.Sqrt(3) * _size; }
-		}
+			=> Mathf.Sqrt(3) * _size;
 
 		public float Height
-		{
-			get { return 2 * _size; }
-		}
+			=> 2 * _size;
 
 		public HexagonTile HexagonTile { get; set; }
 		#endregion
@@ -48,19 +44,13 @@ namespace DAE.GameSystem
 
 		#region Equality Methods
 		public static bool operator ==(Hexagon a, Hexagon b)
-		{
-			return a.Q == b.Q && a.R == b.R && a.S == b.S;
-		}
+			=> a.Q == b.Q && a.R == b.R && a.S == b.S;
 
 		public static bool operator !=(Hexagon a, Hexagon b)
-		{
-			return !(a == b);
-		}
+			=>  !(a == b);
 
 		public bool Equals(Hexagon other)
-		{
-			return this == other;
-		}
+			=> this == other;
 
 		public override bool Equals(object o)
 		{
@@ -84,46 +74,30 @@ namespace DAE.GameSystem
 
 		#region Arithmetic Methos
 		public static Hexagon Add(Hexagon a, Hexagon b)
-		{
-			return new Hexagon(a.Q + b.Q, a.R + b.R, a.S + b.S);
-		}
+			=> new Hexagon(a.Q + b.Q, a.R + b.R, a.S + b.S);
 
 		public static Hexagon Add(Hexagon a, Vector3Int vector)
-		{
-			return Add(a, new Hexagon(vector.x, vector.y, vector.z));
-		}
+			=> Add(a, new Hexagon(vector.x, vector.y, vector.z));
 
 		public static Hexagon Subtract(Hexagon a, Hexagon b)
-		{
-			return new Hexagon(a.Q - b.Q, a.R - b.R, a.S - b.S);
-		}
+			=>  new Hexagon(a.Q - b.Q, a.R - b.R, a.S - b.S);
 
 		public static Hexagon Subtract(Hexagon a, Vector3Int vector)
-		{
-			return Subtract(a, new Hexagon(vector.x, vector.y, vector.z));
-		}
+			=> Subtract(a, new Hexagon(vector.x, vector.y, vector.z));
 
 		public static Hexagon Multiply(Hexagon a, int k)
-		{
-			return new Hexagon(a.Q * k, a.R * k, a.S * k);
-		}
+			=> new Hexagon(a.Q * k, a.R * k, a.S * k);
 		#endregion
 
 		#region Distance Methods
 		public static int Length(Hexagon hexagon)
-		{
-			return Mathf.RoundToInt(Math.Abs(hexagon.Q) + Math.Abs(hexagon.R) + Math.Abs(hexagon.S) / 2);
-		}
+			=> Mathf.RoundToInt(Math.Abs(hexagon.Q) + Math.Abs(hexagon.R) + Math.Abs(hexagon.S) / 2);
 
 		public int Length()
-		{
-			return Length(this);
-		}
+			=> Length(this);
 
 		public static int Distance(Hexagon a, Hexagon b)
-		{
-			return Length(Subtract(a, b));
-		}
+			=> Length(Subtract(a, b));
 		#endregion
 
 		#region Neighbor Methods
@@ -131,9 +105,7 @@ namespace DAE.GameSystem
 			=> Directions.Get(direction);
 
 		public static Hexagon Neighbour(Hexagon hexagon, int direction)
-		{
-			return Add(hexagon, hexagon.Direction(direction));
-		}
+			=>  Add(hexagon, hexagon.Direction(direction));
 		#endregion
 
 		#region Position Conversion
@@ -148,9 +120,7 @@ namespace DAE.GameSystem
 
 		#region Convertors
 		public Vector3Int ToVector3Int()
-		{
-			return new Vector3Int(Q, R, S);
-		}
+			=> new Vector3Int(Q, R, S);
 		#endregion
 	} 
 }
