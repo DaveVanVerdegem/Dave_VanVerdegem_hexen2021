@@ -61,7 +61,7 @@ namespace DAE.HexenSystem
 			int nextCoordinateR = currentCoordinates.r + rOffset;
 			int nextCoordinateS = currentCoordinates.s + sOffset;
 
-			_grid.TryGetPositionAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out TTile nextPosition);
+			_grid.TryGetTileAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out TTile nextPosition);
 
 			int steps = 0;
 			while (steps < maxSteps && nextPosition != null && validators.All((validator) => validator(_board, _grid, _piece, nextPosition)))
@@ -80,7 +80,7 @@ namespace DAE.HexenSystem
 				nextCoordinateR += rOffset;
 				nextCoordinateS += sOffset;
 
-				_grid.TryGetPositionAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out nextPosition);
+				_grid.TryGetTileAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out nextPosition);
 				steps++;
 			}
 

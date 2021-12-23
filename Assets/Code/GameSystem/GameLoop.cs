@@ -5,7 +5,6 @@ using DAE.BoardSystem;
 using System;
 using DAE.HexenSystem;
 using DAE.SelectionSystem;
-using DAE.CardSystem;
 using DAE.GameSystem.Cards;
 
 namespace DAE.GameSystem
@@ -15,16 +14,18 @@ namespace DAE.GameSystem
 		#region Inspector Fields
 		[SerializeField] private HexagonalGridHelper _helper = null;
 
-		[SerializeField] private BaseCard<HexagonTile> _cardPrefab = null;
+		[SerializeField] private BaseCard<Piece<HexagonTile>,HexagonTile> _cardPrefab = null;
 		[SerializeField] private Transform _deckTransform = null;
 		#endregion
 
 		#region Properties
 		public Piece<HexagonTile> PlayerPiece => _playerPiece;
+		public SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> SelectionManager => _selectionManager;
+		public BaseCard<Piece<HexagonTile>, HexagonTile> SelectedCard => _selectedCard;
 		#endregion
 
 		#region Fields
-		private SelectionManager<BaseCard<HexagonTile>> _selectionManager;
+		private SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> _selectionManager;
 		private int _currentPlayerID = 0;
 
 		private Board<Piece<HexagonTile>, HexagonTile> _board = new Board<Piece<HexagonTile>, HexagonTile>();
@@ -35,13 +36,15 @@ namespace DAE.GameSystem
 
 		private Piece<HexagonTile> _playerPiece = null;
 
-		private Deck<BaseCard<HexagonTile>> _deck;
+		private Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile> _deck;
+
+		private BaseCard<Piece<HexagonTile>, HexagonTile> _selectedCard;
 		#endregion
 
 		#region Life Cycle
 		private void Start()
 		{
-			_selectionManager = new SelectionManager<BaseCard<HexagonTile>>();
+			_selectionManager = new SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>>();
 			
 
 			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
@@ -69,11 +72,11 @@ namespace DAE.GameSystem
 			SpawnPlayer();
 			SpawnEnemies();
 
-			_deck = new Deck<BaseCard<HexagonTile>>();
+			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid);
 
 			for (int i = 0; i < 10; i++)
 			{
-				BaseCard<HexagonTile> card = Instantiate(_cardPrefab, _deckTransform);
+				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(_cardPrefab, _deckTransform);
 				_deck.Register(card);
 
 				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
@@ -125,7 +128,7 @@ namespace DAE.GameSystem
 
 		private Piece<HexagonTile> SpawnPiece(Piece<HexagonTile> piecePrefab, int q, int r, int s)
 		{
-			if(_grid.TryGetPositionAt(q, r, s, out HexagonTile tile))
+			if(_grid.TryGetTileAt(q, r, s, out HexagonTile tile))
 			{
 				Piece<HexagonTile> piece = Instantiate(piecePrefab, tile.transform.position, Quaternion.identity);
 				_board.Place(piece, tile);
@@ -138,97 +141,42 @@ namespace DAE.GameSystem
 			}
 		}
 
-		public void Highlight(BaseCard<HexagonTile> card, HexagonTile hexagonTile)
+		public void Highlight(HexagonTile hexagonTile)
 		{
+			if (hexagonTile == null) return;
+			if (SelectedCard == null) return;
+
 			UnhighlightAll();
 
-			List<HexagonTile> validPositions = _moveManager.ValidPositionsFor(_playerPiece, card.CardType);
+			List<HexagonTile> tiles = SelectedCard.Positions(PlayerPiece, hexagonTile);
 
-			if(validPositions.Contains(hexagonTile))
-			{
-				foreach (HexagonTile tile in validPositions)
-					tile.Highlight = true;
-			}
-			else
-			{
-				foreach (HexagonTile tile in validPositions)
-					tile.Highlight = true;
-			}
+			foreach (HexagonTile tile in tiles)
+				tile.Highlight = true;
+		}
+
+		public void Execute(HexagonTile hexagonTile)
+		{
+			_deck.PlayCard(SelectedCard, PlayerPiece, hexagonTile);
 		}
 
 		public void UnhighlightAll()
 		{
-			List<HexagonTile> tiles = _grid.GetPositions();
+			List<HexagonTile> tiles = _grid.GetTiles();
 
 			foreach (HexagonTile tile in tiles)
 				tile.Highlight = false;
 		}
 
-		private void Select(BaseCard<HexagonTile> card)
+		private void Select(BaseCard<Piece<HexagonTile>, HexagonTile> card)
 		{
-			_selectionManager.Select(card);
+			//_selectionManager.Select(card);
+			_selectedCard = card;
 		}
-
-		//private void Select(Piece<HexagonTile> piece)
-		//{
-		//	if (piece.PlayerID == _currentPlayerID)
-		//	{
-		//		_selectionManager.DeselectAll();
-		//		_selectionManager.Select(piece);
-		//	}
-		//	else
-		//	{
-		//		if (_board.TryGetPosition(piece, out HexagonTile tile))
-		//		{
-		//			Select(tile);
-		//		}
-		//	}
-
-		//}
-
-		private void Select(HexagonTile tile)
-		{
-
-
-			//if (_selectionManager.HasSelection)
-			//{
-			//	HexagonTile selectedTile = _selectionManager.SelectedItem;
-			//	_selectionManager.Deselect(selectedTile);
-
-			//	//List<HexagonTile> validPositions = _moveManager.ValidPositionsFor(selectedTile);
-			//	//if (validPositions.Contains(tile))
-			//	//{
-			//	//	_moveManager.Move(selectedTile, tile);
-			//	//}
-			//}
-
-			//_selectionManager.Select(tile);
-		}
-
-		//private void Select(HexagonTile tile)
-		//{
-		//	if (_board.TryGetPiece(tile, out Piece<HexagonTile> piece) && piece.PlayerID == _currentPlayerID)
-		//	{
-		//		Select(piece);
-		//	}
-		//	else
-		//	{
-		//		if (_selectionManager.HasSelection)
-		//		{
-		//			Piece<HexagonTile> selectedPiece = _selectionManager.SelectedItem;
-		//			_selectionManager.Deselect(selectedPiece);
-
-		//			List<HexagonTile> validPositions = _moveManager.ValidPositionsFor(selectedPiece);
-		//			if (validPositions.Contains(tile))
-		//			{
-		//				_moveManager.Move(selectedPiece, tile);
-		//			}
-		//		}
-		//	}
-		//}
 
 		public void DeselectAll()
 			=> _selectionManager.DeselectAll();
 		#endregion
+
+
 	}
 }

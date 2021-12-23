@@ -20,12 +20,25 @@ namespace DAE.GameSystem
 		public event EventHandler<HexagonTileEventArgs> Exited;
 		public event EventHandler<HexagonTileEventArgs> Clicked;
 		public Hexagon Hexagon { get; set; }
+
+		public bool Highlight
+		{
+			set
+			{
+				if (value)
+					OnActivate.Invoke();
+				else
+					OnDeactivate.Invoke();
+			}
+		}
 		#endregion
 
 		#region IPointerHandler
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			Debug.Log("Entered Tile.");
+
+			GameLoop.Instance.Highlight(this);
 		}
 
 		protected virtual void OnEntered(HexagonTileEventArgs eventArgs)
@@ -60,16 +73,6 @@ namespace DAE.GameSystem
 		#endregion
 
 		#region Methods
-		public bool Highlight
-		{
-			set
-			{
-				if (value)
-					OnActivate.Invoke();
-				else
-					OnDeactivate.Invoke();
-			}
-		}
 		#endregion
 
 		internal void DebugTile()
@@ -80,7 +83,7 @@ namespace DAE.GameSystem
 		#region IDropHandler
 		public void OnDrop(PointerEventData eventData)
 		{
-			throw new NotImplementedException();
+			GameLoop.Instance.Execute(this);
 		}
 		#endregion
 	}

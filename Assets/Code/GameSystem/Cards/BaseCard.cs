@@ -1,15 +1,15 @@
 using DAE.BoardSystem;
-using DAE.CardSystem;
 using DAE.HexenSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace DAE.GameSystem.Cards
 {
-	public class BaseCard<TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHandler
+	public class BaseCard<TPiece, TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHandler, ICard<TPiece, TTile>
 	{
 
 		#region Inspector Fields
@@ -17,8 +17,8 @@ namespace DAE.GameSystem.Cards
 		#endregion
 
 		#region Properties
-		public event EventHandler<CardEventArgs<BaseCard<TTile>>> CardBeginDrag;
-		public event EventHandler<CardEventArgs<BaseCard<TTile>>> CardEndDrag;
+		public event EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> CardBeginDrag;
+		public event EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> CardEndDrag;
 		#endregion
 
 		#region Fields
@@ -26,101 +26,129 @@ namespace DAE.GameSystem.Cards
 
 		private Vector3 _originalPosition = Vector3.zero;
 
-		private Board<Piece<HexagonTile>, TTile> _board;
-		private Grid<TTile> _grid;
+		protected Board<TPiece, TTile> _board;
+		protected Grid<TTile> _grid;
 
-		private List<TTile> _validPositions = new List<TTile>();
+		protected List<TTile> _validTiles = new List<TTile>();
+
+		//private Image _image = null;
 		#endregion
 
 		#region Life Cycle
 		private void Awake()
 		{
 			_rectTransform = GetComponent<RectTransform>();
+			//_image = GetComponent<Image>();
+		}
+
+		public void Initialize(Board<TPiece, TTile> board, Grid<TTile> grid)
+		{
+			_board = board;
+			_grid = grid;
+
+			gameObject.SetActive(false);
 		}
 		#endregion
 
 		#region Methods
-		public void OnCardBeginDrag(CardEventArgs<BaseCard<TTile>> eventArgs)
+		public virtual bool Execute(TPiece piece, TTile tile)
 		{
-			EventHandler<CardEventArgs<BaseCard<TTile>>> handler = CardBeginDrag;
-			handler?.Invoke(this, eventArgs);
+			gameObject.SetActive(false);
+
+			return true;
 		}
 
-		public void OnCardEndDrag(CardEventArgs<BaseCard<TTile>> eventArgs)
+		public virtual List<TTile> Positions(TPiece piece, TTile tile)
 		{
-			EventHandler<CardEventArgs<BaseCard<TTile>>> handler = CardEndDrag;
-			handler?.Invoke(this, eventArgs);
+			throw new NotImplementedException();
 		}
 		#endregion
 
 		#region IDragHandler
+		public void OnCardBeginDrag(CardEventArgs<BaseCard<TPiece, TTile>> eventArgs)
+		{
+			EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> handler = CardBeginDrag;
+			handler?.Invoke(this, eventArgs);
+		}
+
+		public void OnCardEndDrag(CardEventArgs<BaseCard<TPiece, TTile>> eventArgs)
+		{
+			EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> handler = CardEndDrag;
+			handler?.Invoke(this, eventArgs);
+		}
+
 		public void OnBeginDrag(PointerEventData eventData)
 		{
 			_originalPosition = _rectTransform.position;
-			OnCardBeginDrag(new CardEventArgs<BaseCard<TTile>>(this));
+			//_image.raycastTarget = false;
+
+			OnCardBeginDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			_rectTransform.transform.position = eventData.position;
+			_rectTransform.transform.position = eventData.position + Vector2.down;
 		}
 
 		public void OnDrop(PointerEventData eventData)
 		{
 			//GameLoop.Instance.UnhighlightAll();
 
-			_rectTransform.position = _originalPosition;
+			Debug.Log("Dropped card");
 
-			OnCardEndDrag(new CardEventArgs<BaseCard<TTile>>(this));
+			_rectTransform.position = _originalPosition;
+			//_image.raycastTarget = true;
+
+			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
 		#endregion
 
-		#region Methods
-		public List<TTile> Direction(int direction, int maxSteps = int.MaxValue)
-		{
-			Vector3Int directionVector = Directions.Get(direction);
-			return Collect(directionVector.x, directionVector.y, directionVector.z, maxSteps);
-		}
+		#region Action Methods
+		//public List<TTile> Direction(int direction, int maxSteps = int.MaxValue)
+		//{
+		//	Vector3Int directionVector = Directions.Get(direction);
+		//	return Collect(directionVector.x, directionVector.y, directionVector.z, maxSteps);
+		//}
 
-		public List<TTile> Collect(int qOffset, int rOffset, int sOffset, int maxSteps = int.MaxValue)
-		{
-			List<TTile> tiles = new List<TTile>();
+		//public List<TTile> Collect(int qOffset, int rOffset, int sOffset, int maxSteps = int.MaxValue)
+		//{
+		//	List<TTile> tiles = new List<TTile>();
 
-			if (!_board.TryGetPosition(GameLoop.Instance.PlayerPiece, out TTile currentTile))
-				return tiles;
+		//	if (!_board.TryGetPosition(GameLoop.Instance.PlayerPiece, out TTile currentTile))
+		//		return tiles;
 
-			if (!_grid.TryGetCoordinatesAt(currentTile, out (int q, int r, int s) currentCoordinates))
-				return tiles;
+		//	if (!_grid.TryGetCoordinatesAt(currentTile, out (int q, int r, int s) currentCoordinates))
+		//		return tiles;
 
-			int nextCoordinateQ = currentCoordinates.q + qOffset;
-			int nextCoordinateR = currentCoordinates.r + rOffset;
-			int nextCoordinateS = currentCoordinates.s + sOffset;
+		//	int nextCoordinateQ = currentCoordinates.q + qOffset;
+		//	int nextCoordinateR = currentCoordinates.r + rOffset;
+		//	int nextCoordinateS = currentCoordinates.s + sOffset;
 
-			_grid.TryGetPositionAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out TTile nextPosition);
+		//	_grid.TryGetTileAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out TTile nextPosition);
 
-			int steps = 0;
-			while (steps < maxSteps && nextPosition != null)
-			{
-				//if (_board.TryGetPiece(nextPosition, out Piece<TTile> nextPiece))
-				//{
-				//	if (nextPiece.PlayerID != _piece.PlayerID)
-				//		_validPositions.Add(nextPosition);
-				//}
-				//else
-				//{
-					_validPositions.Add(nextPosition);
-				//}
+		//	int steps = 0;
+		//	while (steps < maxSteps && nextPosition != null)
+		//	{
+		//		//if (_board.TryGetPiece(nextPosition, out Piece<TTile> nextPiece))
+		//		//{
+		//		//	if (nextPiece.PlayerID != _piece.PlayerID)
+		//		//		_validPositions.Add(nextPosition);
+		//		//}
+		//		//else
+		//		//{
+		//			validTiles.Add(nextPosition);
+		//		//}
 
-				nextCoordinateQ += qOffset;
-				nextCoordinateR += rOffset;
-				nextCoordinateS += sOffset;
+		//		nextCoordinateQ += qOffset;
+		//		nextCoordinateR += rOffset;
+		//		nextCoordinateS += sOffset;
 
-				_grid.TryGetPositionAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out nextPosition);
-				steps++;
-			}
+		//		_grid.TryGetTileAt(nextCoordinateQ, nextCoordinateR, nextCoordinateS, out nextPosition);
+		//		steps++;
+		//	}
 
-			return tiles;
-		}
+		//	return tiles;
+		//}
 		#endregion
 	}
 }
