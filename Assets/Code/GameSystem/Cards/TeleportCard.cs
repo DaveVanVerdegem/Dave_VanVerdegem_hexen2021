@@ -19,16 +19,6 @@ namespace DAE.GameSystem.Cards
 
 		#endregion
 
-		#region Life Cycle
-		private void Start()
-		{
-		}
-
-		private void Update()
-		{
-		}
-		#endregion
-
 		#region Methods
 
 		#endregion

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DAE.CardSystem
 {
-	public class Deck<TCard, TTile> where TCard : MonoBehaviour
+	public class Deck<TCard> where TCard : MonoBehaviour
 	{
 		#region Properties
 		public event EventHandler<CardEventArgs<TCard>> CardPlayed;
@@ -38,7 +38,7 @@ namespace DAE.CardSystem
 			}
 		}
 
-		public void PlayCard(TCard card, TTile tile)
+		public void PlayCard(TCard card)
 		{
 
 		}

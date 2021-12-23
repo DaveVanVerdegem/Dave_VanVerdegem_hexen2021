@@ -35,7 +35,7 @@ namespace DAE.GameSystem
 
 		private Piece<HexagonTile> _playerPiece = null;
 
-		private Deck<BaseCard<HexagonTile>, HexagonTile> _deck;
+		private Deck<BaseCard<HexagonTile>> _deck;
 		#endregion
 
 		#region Life Cycle
@@ -69,7 +69,7 @@ namespace DAE.GameSystem
 			SpawnPlayer();
 			SpawnEnemies();
 
-			_deck = new Deck<BaseCard<HexagonTile>, HexagonTile>();
+			_deck = new Deck<BaseCard<HexagonTile>>();
 
 			for (int i = 0; i < 10; i++)
 			{

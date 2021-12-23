@@ -26,9 +26,6 @@ namespace DAE.GameSystem.Cards
 
 		private Vector3 _originalPosition = Vector3.zero;
 
-		//private bool _raycastHit = false;
-		//private HexagonTile _tileHit = null;
-
 		private Board<Piece<HexagonTile>, TTile> _board;
 		private Grid<TTile> _grid;
 
@@ -43,17 +40,6 @@ namespace DAE.GameSystem.Cards
 		#endregion
 
 		#region Methods
-		//private void CastRay(PointerEventData eventData)
-		//{
-		//	Ray ray = Camera.main.ScreenPointToRay(eventData.position);
-		//	if (Physics.Raycast(ray, out RaycastHit hitInfo))
-		//	{
-		//		_raycastHit = hitInfo.collider.TryGetComponent(out _tileHit);
-		//	}
-		//	else
-		//		_raycastHit = false;
-		//}
-
 		public void OnCardBeginDrag(CardEventArgs<BaseCard<TTile>> eventArgs)
 		{
 			EventHandler<CardEventArgs<BaseCard<TTile>>> handler = CardBeginDrag;
@@ -76,13 +62,6 @@ namespace DAE.GameSystem.Cards
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			//CastRay(eventData);
-
-			//if(_raycastHit)
-			//	GameLoop.Instance.Highlight(this, _tileHit);
-			//else
-			//	GameLoop.Instance.UnhighlightAll();
-
 			_rectTransform.transform.position = eventData.position;
 		}
 
