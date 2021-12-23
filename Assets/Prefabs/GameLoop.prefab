@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _helper: {fileID: 11400000, guid: 6e663fcb8523f884fb81029c6b6df5b0, type: 2}
-  _playerPiece: {fileID: 3112183685649213881, guid: afdc65b981295ef49bfb4e1bf5322bd6, type: 3}
-  _enemyPiece: {fileID: 258122636769429448, guid: e93f21a019191ec49a745b9a637f7552, type: 3}
+  _cardPrefab: {fileID: 8738943462116904342, guid: 41b2273385ac6d743b976069d5cf397c, type: 3}
+  _deckTransform: {fileID: 0}

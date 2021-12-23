@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace DAE.HexenSystem
 {
-	public class Piece<TPosition> : MonoBehaviour, IPointerClickHandler where TPosition: MonoBehaviour, ITile
+	public class Piece<TTile> : MonoBehaviour, IPointerClickHandler where TTile: MonoBehaviour, ITile
 	{
 		#region Inspector Fields
 		[SerializeField]
@@ -22,9 +22,9 @@ namespace DAE.HexenSystem
 		#region Properties
 		public int PlayerID => _playerId;
 
-		public event EventHandler<PieceEventArgs<TPosition>> Placed;
-		public event EventHandler<PieceEventArgs<TPosition>> Taken;
-		public event EventHandler<PieceEventArgs<TPosition>> Moved;
+		public event EventHandler<PieceEventArgs<TTile>> Placed;
+		public event EventHandler<PieceEventArgs<TTile>> Taken;
+		public event EventHandler<PieceEventArgs<TTile>> Moved;
 
 		//public bool Highlight
 		//{
@@ -34,7 +34,7 @@ namespace DAE.HexenSystem
 		//	}
 		//}
 
-		public event EventHandler<ClickEventArgs<TPosition>> Clicked;
+		public event EventHandler<ClickEventArgs<TTile>> Clicked;
 		#endregion
 
 		#region Fields
@@ -42,41 +42,41 @@ namespace DAE.HexenSystem
 		#endregion
 
 		#region Methods
-		internal void MoveTo(TPosition position)
+		internal void MoveTo(TTile position)
 		{
-			OnMoved(new PieceEventArgs<TPosition>(position));
+			OnMoved(new PieceEventArgs<TTile>(position));
 		}
 
-		internal void TakeFrom(TPosition position)
+		internal void TakeFrom(TTile position)
 		{
-			OnTaken(new PieceEventArgs<TPosition>(position));
+			OnTaken(new PieceEventArgs<TTile>(position));
 		}
 
-		internal void PlaceAt(TPosition position)
+		internal void PlaceAt(TTile position)
 		{
-			OnPlaced(new PieceEventArgs<TPosition>(position));
+			OnPlaced(new PieceEventArgs<TTile>(position));
 		}
 
-		protected virtual void OnPlaced(PieceEventArgs<TPosition> eventArgs)
+		protected virtual void OnPlaced(PieceEventArgs<TTile> eventArgs)
 		{
-			EventHandler<PieceEventArgs<TPosition>> handler = Placed;
+			EventHandler<PieceEventArgs<TTile>> handler = Placed;
 			handler?.Invoke(this, eventArgs);
 
 			transform.position = eventArgs.Position.transform.position;
 			gameObject.SetActive(true);
 		}
 
-		protected virtual void OnMoved(PieceEventArgs<TPosition> eventArgs)
+		protected virtual void OnMoved(PieceEventArgs<TTile> eventArgs)
 		{
-			EventHandler<PieceEventArgs<TPosition>> handler = Moved;
+			EventHandler<PieceEventArgs<TTile>> handler = Moved;
 			handler?.Invoke(this, eventArgs);
 
 			transform.position = eventArgs.Position.transform.position;
 		}
 
-		protected virtual void OnTaken(PieceEventArgs<TPosition> eventArgs)
+		protected virtual void OnTaken(PieceEventArgs<TTile> eventArgs)
 		{
-			EventHandler<PieceEventArgs<TPosition>> handler = Taken;
+			EventHandler<PieceEventArgs<TTile>> handler = Taken;
 			handler?.Invoke(this, eventArgs);
 
 			gameObject.SetActive(false);
@@ -88,10 +88,10 @@ namespace DAE.HexenSystem
 		{
 			//Debug.Log($"Clicked {gameObject.name}");
 
-			OnClicked(new ClickEventArgs<TPosition>(this));
+			OnClicked(new ClickEventArgs<TTile>(this));
 		}
 
-		protected virtual void OnClicked(ClickEventArgs<TPosition> eventArgs)
+		protected virtual void OnClicked(ClickEventArgs<TTile> eventArgs)
 		{
 			var handler = Clicked;
 			handler?.Invoke(this, eventArgs);

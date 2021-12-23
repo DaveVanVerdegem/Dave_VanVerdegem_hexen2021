@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4019625553970568682}
   - component: {fileID: 8032505416845495796}
   - component: {fileID: 8041164001399266656}
-  - component: {fileID: -4229971272201575260}
+  - component: {fileID: 8738943462116904342}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &-4229971272201575260
+--- !u!114 &8738943462116904342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4856055488217817035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f265047c9c3bd3747b3ef91c77c74cd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a6f2f108d8c8684d9fb769804580093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardType: 3
+  CardType: 0

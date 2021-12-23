@@ -6,70 +6,70 @@ using UnityEngine;
 
 namespace DAE.BoardSystem
 {
-	public class Board<TPiece, TPosition>
+	public class Board<TPiece, TTile>
 	{
 		#region Properties
-		public bool TryGetPiece(TPosition position, out TPiece piece)
+		public bool TryGetPiece(TTile position, out TPiece piece)
 			=> _pieces.TryGetKey(position, out piece);
 
-		public bool TryGetPosition(TPiece piece, out TPosition position)
-			=> _pieces.TryGetValue(piece, out position);
+		public bool TryGetPosition(TPiece piece, out TTile tile)
+			=> _pieces.TryGetValue(piece, out tile);
 		#endregion
 
 		#region Fields
-		private BidirectionalDictionary<TPiece, TPosition> _pieces = new BidirectionalDictionary<TPiece, TPosition>();
+		private BidirectionalDictionary<TPiece, TTile> _pieces = new BidirectionalDictionary<TPiece, TTile>();
 
-		public event EventHandler<PiecePlacedEventArgs<TPiece, TPosition>> PiecePlaced;
-		public event EventHandler<PieceMovedEventArgs<TPiece, TPosition>> PieceMoved;
-		public event EventHandler<PieceTakenEventArgs<TPiece, TPosition>> PieceTaken;
+		public event EventHandler<PiecePlacedEventArgs<TPiece, TTile>> PiecePlaced;
+		public event EventHandler<PieceMovedEventArgs<TPiece, TTile>> PieceMoved;
+		public event EventHandler<PieceTakenEventArgs<TPiece, TTile>> PieceTaken;
 		#endregion
 
 		#region Methods
-		public void Move(TPiece piece, TPosition toPosition)
+		public void Move(TPiece piece, TTile toTile)
 		{
-			if (!TryGetPosition(piece, out TPosition fromPosition)) return;
-			if (TryGetPiece(toPosition, out _)) return;
+			if (!TryGetPosition(piece, out TTile fromTile)) return;
+			if (TryGetPiece(toTile, out _)) return;
 
 			if (_pieces.Remove(piece))
-				_pieces.Add(piece, toPosition);
-			OnPieceMoved(new PieceMovedEventArgs<TPiece, TPosition>(piece, fromPosition, toPosition));
+				_pieces.Add(piece, toTile);
+			OnPieceMoved(new PieceMovedEventArgs<TPiece, TTile>(piece, fromTile, toTile));
 		}
 
-		public void Place(TPiece piece, TPosition position)
+		public void Place(TPiece piece, TTile tile)
 		{
 			if (_pieces.ContainsKey(piece)) return;
-			if (_pieces.ContainsValue(position)) return;
+			if (_pieces.ContainsValue(tile)) return;
 
-			_pieces.Add(piece, position);
+			_pieces.Add(piece, tile);
 
-			OnPiecePlaced(new PiecePlacedEventArgs<TPiece, TPosition>(piece, position));
+			OnPiecePlaced(new PiecePlacedEventArgs<TPiece, TTile>(piece, tile));
 		}
 
 		public void Take(TPiece piece)
 		{
-			if (!TryGetPosition(piece, out TPosition fromPosition)) return;
+			if (!TryGetPosition(piece, out TTile fromPosition)) return;
 
 			if (_pieces.Remove(piece))
-				OnPieceTaken(new PieceTakenEventArgs<TPiece, TPosition>(piece, fromPosition));
+				OnPieceTaken(new PieceTakenEventArgs<TPiece, TTile>(piece, fromPosition));
 		} 
 		#endregion
 
 		#region Events
-		protected virtual void OnPiecePlaced(PiecePlacedEventArgs<TPiece, TPosition> eventArgs)
+		protected virtual void OnPiecePlaced(PiecePlacedEventArgs<TPiece, TTile> eventArgs)
 		{
-			EventHandler<PiecePlacedEventArgs<TPiece, TPosition>> handler = PiecePlaced;
+			EventHandler<PiecePlacedEventArgs<TPiece, TTile>> handler = PiecePlaced;
 			handler?.Invoke(this, eventArgs);
 		}
 
-		protected virtual void OnPieceMoved(PieceMovedEventArgs<TPiece, TPosition> eventArgs)
+		protected virtual void OnPieceMoved(PieceMovedEventArgs<TPiece, TTile> eventArgs)
 		{
-			EventHandler<PieceMovedEventArgs<TPiece, TPosition>> handler = PieceMoved;
+			EventHandler<PieceMovedEventArgs<TPiece, TTile>> handler = PieceMoved;
 			handler?.Invoke(this, eventArgs);
 		}
 
-		protected virtual void OnPieceTaken(PieceTakenEventArgs<TPiece, TPosition> eventArgs)
+		protected virtual void OnPieceTaken(PieceTakenEventArgs<TPiece, TTile> eventArgs)
 		{
-			EventHandler<PieceTakenEventArgs<TPiece, TPosition>> handler = PieceTaken;
+			EventHandler<PieceTakenEventArgs<TPiece, TTile>> handler = PieceTaken;
 			handler?.Invoke(this, eventArgs);
 		} 
 		#endregion

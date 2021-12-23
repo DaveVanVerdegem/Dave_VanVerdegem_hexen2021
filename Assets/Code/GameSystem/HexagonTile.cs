@@ -16,11 +16,35 @@ namespace DAE.GameSystem
 		#endregion
 
 		#region Properties
+		public event EventHandler<HexagonTileEventArgs> Entered;
+		public event EventHandler<HexagonTileEventArgs> Exited;
 		public event EventHandler<HexagonTileEventArgs> Clicked;
 		public Hexagon Hexagon { get; set; }
 		#endregion
 
-		#region IPointerClickHandler
+		#region IPointerHandler
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			Debug.Log("Entered Tile.");
+		}
+
+		protected virtual void OnEntered(HexagonTileEventArgs eventArgs)
+		{
+			EventHandler<HexagonTileEventArgs> handler = Entered;
+			handler?.Invoke(this, eventArgs);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			Debug.Log("Exited Tile.");
+		}
+
+		protected virtual void OnExited(HexagonTileEventArgs eventArgs)
+		{
+			EventHandler<HexagonTileEventArgs> handler = Exited;
+			handler?.Invoke(this, eventArgs);
+		}
+
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			OnClick(new HexagonTileEventArgs(this));
@@ -52,6 +76,13 @@ namespace DAE.GameSystem
 		{
 			Debug.Log($"Tile {name} at GP {Hexagon.ToVector3Int()} and WP {Hexagon.ToWorldPosition()}");
 		}
+
+		#region IDropHandler
+		public void OnDrop(PointerEventData eventData)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
 	}
 
 	#region EventArgs

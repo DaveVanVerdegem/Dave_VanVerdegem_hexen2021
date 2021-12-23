@@ -5,6 +5,8 @@ using DAE.BoardSystem;
 using System;
 using DAE.HexenSystem;
 using DAE.SelectionSystem;
+using DAE.CardSystem;
+using DAE.GameSystem.Cards;
 
 namespace DAE.GameSystem
 {
@@ -12,10 +14,17 @@ namespace DAE.GameSystem
 	{
 		#region Inspector Fields
 		[SerializeField] private HexagonalGridHelper _helper = null;
+
+		[SerializeField] private BaseCard<HexagonTile> _cardPrefab = null;
+		[SerializeField] private Transform _deckTransform = null;
+		#endregion
+
+		#region Properties
+		public Piece<HexagonTile> PlayerPiece => _playerPiece;
 		#endregion
 
 		#region Fields
-		private SelectionManager<HexagonTile> _selectionManager;
+		private SelectionManager<BaseCard<HexagonTile>> _selectionManager;
 		private int _currentPlayerID = 0;
 
 		private Board<Piece<HexagonTile>, HexagonTile> _board = new Board<Piece<HexagonTile>, HexagonTile>();
@@ -25,12 +34,14 @@ namespace DAE.GameSystem
 		private MoveManager<HexagonTile> _moveManager;
 
 		private Piece<HexagonTile> _playerPiece = null;
+
+		private Deck<BaseCard<HexagonTile>, HexagonTile> _deck;
 		#endregion
 
 		#region Life Cycle
 		private void Start()
 		{
-			_selectionManager = new SelectionManager<HexagonTile>();
+			_selectionManager = new SelectionManager<BaseCard<HexagonTile>>();
 			
 
 			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
@@ -57,6 +68,19 @@ namespace DAE.GameSystem
 
 			SpawnPlayer();
 			SpawnEnemies();
+
+			_deck = new Deck<BaseCard<HexagonTile>, HexagonTile>();
+
+			for (int i = 0; i < 10; i++)
+			{
+				BaseCard<HexagonTile> card = Instantiate(_cardPrefab, _deckTransform);
+				_deck.Register(card);
+
+				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
+				card.CardEndDrag += (sender, eventArgs) => DeselectAll();
+			}
+
+			_deck.FillHand();
 		}
 		#endregion
 
@@ -77,7 +101,7 @@ namespace DAE.GameSystem
 				tile.Hexagon = hexagon;
 				hexagon.HexagonTile = tile;
 
-
+				//tile.Entered += (sender, eventArgs) => 
 			}
 		}
 
@@ -114,7 +138,7 @@ namespace DAE.GameSystem
 			}
 		}
 
-		public void Highlight(Card card, HexagonTile hexagonTile)
+		public void Highlight(BaseCard<HexagonTile> card, HexagonTile hexagonTile)
 		{
 			UnhighlightAll();
 
@@ -138,6 +162,11 @@ namespace DAE.GameSystem
 
 			foreach (HexagonTile tile in tiles)
 				tile.Highlight = false;
+		}
+
+		private void Select(BaseCard<HexagonTile> card)
+		{
+			_selectionManager.Select(card);
 		}
 
 		//private void Select(Piece<HexagonTile> piece)
@@ -173,7 +202,7 @@ namespace DAE.GameSystem
 			//	//}
 			//}
 
-			_selectionManager.Select(tile);
+			//_selectionManager.Select(tile);
 		}
 
 		//private void Select(HexagonTile tile)

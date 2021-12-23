@@ -10,22 +10,22 @@ using UnityEngine;
 
 namespace DAE.HexenSystem
 {
-	public class MoveManager<TPosition> where TPosition : MonoBehaviour, ITile
+	public class MoveManager<TTile> where TTile : MonoBehaviour, ITile
 	{
 		#region Properties
 
 		#endregion
 
 		#region Fields
-		private MultiValueDictionary<CardType, IMove<TPosition>> _moves = new MultiValueDictionary<CardType, IMove<TPosition>>();
-		private MultiValueDictionary<CardType, IMove<TPosition>> _targets = new MultiValueDictionary<CardType, IMove<TPosition>>();
+		private MultiValueDictionary<CardType, IMove<TTile>> _moves = new MultiValueDictionary<CardType, IMove<TTile>>();
+		private MultiValueDictionary<CardType, IMove<TTile>> _targets = new MultiValueDictionary<CardType, IMove<TTile>>();
 
-		private Board<Piece<TPosition>, TPosition> _board;
-		private Grid<TPosition> _grid;
+		private Board<Piece<TTile>, TTile> _board;
+		private Grid<TTile> _grid;
 		#endregion
 
 		#region Constructors
-		public MoveManager(Board<Piece<TPosition>, TPosition> board, Grid<TPosition> grid)
+		public MoveManager(Board<Piece<TTile>, TTile> board, Grid<TTile> grid)
 		{
 			_board = board;
 
@@ -37,8 +37,8 @@ namespace DAE.HexenSystem
 
 			_moves.Add(
 				CardType.Slash,
-					new ConfigurableMove<TPosition>(board, grid,
-						(b, g, p) => new MovementHelper<TPosition>(b, g, p)
+					new ConfigurableMove<TTile>(board, grid,
+						(b, g, p) => new MovementHelper<TTile>(b, g, p)
 										.Direction(0)
 										.Direction(1)
 										.Direction(2)
@@ -76,9 +76,9 @@ namespace DAE.HexenSystem
 		#endregion
 
 		#region Methods
-		public List<TPosition> ValidPositionsFor(Piece<TPosition> piece, CardType cardType)
+		public List<TTile> ValidPositionsFor(Piece<TTile> piece, CardType cardType)
 		{
-			List<TPosition> result = _moves[cardType]
+			List<TTile> result = _moves[cardType]
 				.Where((m) => m.CanExecute(piece))
 				.SelectMany((m) => m.Positions(piece))
 				.ToList();
@@ -86,7 +86,7 @@ namespace DAE.HexenSystem
 			return result;
 		}
 
-		public List<TPosition> ValidPositionsFor(Piece<TPosition> piece)
+		public List<TTile> ValidPositionsFor(Piece<TTile> piece)
 		{
 			throw new NotImplementedException();
 
@@ -98,7 +98,7 @@ namespace DAE.HexenSystem
 			//return result;
 		}
 
-		public void Move(Piece<TPosition> piece, TPosition position)
+		public void Move(Piece<TTile> piece, TTile position)
 		{
 			throw new NotImplementedException();
 

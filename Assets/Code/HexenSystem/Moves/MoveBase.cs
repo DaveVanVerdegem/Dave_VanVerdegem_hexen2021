@@ -8,15 +8,15 @@ using UnityEngine;
 
 namespace DAE.HexenSystem.Moves
 {
-	abstract class MoveBase<TPosition> : IMove<TPosition> where TPosition : MonoBehaviour, ITile
+	abstract class MoveBase<TTile> : IMove<TTile> where TTile : MonoBehaviour, ITile
 	{
 		#region Fields
-		protected Board<Piece<TPosition>, TPosition> _board { get; }
-		protected Grid<TPosition> _grid { get; }
+		protected Board<Piece<TTile>, TTile> _board { get; }
+		protected Grid<TTile> _grid { get; }
 		#endregion
 
 		#region Constructors
-		protected MoveBase(Board<Piece<TPosition>, TPosition> board, Grid<TPosition> grid)
+		protected MoveBase(Board<Piece<TTile>, TTile> board, Grid<TTile> grid)
 		{
 			_board = board;
 			_grid = grid;
@@ -24,10 +24,10 @@ namespace DAE.HexenSystem.Moves
 		#endregion
 
 		#region Methods
-		public bool CanExecute(Piece<TPosition> piece)
+		public bool CanExecute(Piece<TTile> piece)
 			=> true;
 
-		public void Execute(Piece<TPosition> piece, TPosition position)
+		public void Execute(Piece<TTile> piece, TTile position)
 		{
 			if (_board.TryGetPiece(position, out var toPiece))
 				_board.Take(toPiece);
@@ -35,7 +35,7 @@ namespace DAE.HexenSystem.Moves
 			//_board.Move(piece, position);
 		}
 
-		public abstract List<TPosition> Positions(Piece<TPosition> piece); 
+		public abstract List<TTile> Positions(Piece<TTile> piece); 
 		#endregion
 
 	}
