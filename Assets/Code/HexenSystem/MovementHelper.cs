@@ -51,7 +51,7 @@ namespace DAE.HexenSystem
 		#region Moves
 		public MovementHelper<TTile> Collect(int qOffset, int rOffset, int sOffset, int maxSteps = int.MaxValue, params Validator[] validators)
 		{
-			if (!_board.TryGetPosition(_piece, out TTile currentPosition))
+			if (!_board.TryGetTile(_piece, out TTile currentPosition))
 				return this;
 
 			if (!_grid.TryGetCoordinatesAt(currentPosition, out (int q, int r, int s) currentCoordinates))

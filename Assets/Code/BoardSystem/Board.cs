@@ -12,7 +12,7 @@ namespace DAE.BoardSystem
 		public bool TryGetPiece(TTile position, out TPiece piece)
 			=> _pieces.TryGetKey(position, out piece);
 
-		public bool TryGetPosition(TPiece piece, out TTile tile)
+		public bool TryGetTile(TPiece piece, out TTile tile)
 			=> _pieces.TryGetValue(piece, out tile);
 		#endregion
 
@@ -27,7 +27,7 @@ namespace DAE.BoardSystem
 		#region Methods
 		public void Move(TPiece piece, TTile toTile)
 		{
-			if (!TryGetPosition(piece, out TTile fromTile)) return;
+			if (!TryGetTile(piece, out TTile fromTile)) return;
 			if (TryGetPiece(toTile, out _)) return;
 
 			if (_pieces.Remove(piece))
@@ -47,7 +47,7 @@ namespace DAE.BoardSystem
 
 		public void Take(TPiece piece)
 		{
-			if (!TryGetPosition(piece, out TTile fromPosition)) return;
+			if (!TryGetTile(piece, out TTile fromPosition)) return;
 
 			if (_pieces.Remove(piece))
 				OnPieceTaken(new PieceTakenEventArgs<TPiece, TTile>(piece, fromPosition));

@@ -10,7 +10,7 @@ namespace DAE.GameSystem.Cards
 		#region Methods
 		public override List<HexagonTile> Positions(Piece<HexagonTile> piece, HexagonTile tile)
 		{
-			_board.TryGetPosition(piece, out HexagonTile playerTile);
+			_board.TryGetTile(piece, out HexagonTile playerTile);
 			List<HexagonTile> tiles = GetNeighbours(playerTile);
 
 			if (tiles.Contains(tile))
@@ -57,7 +57,7 @@ namespace DAE.GameSystem.Cards
 			return tiles;
 		}
 
-		private HexagonTile GetNeighbour(HexagonTile tile, int direction)
+		protected HexagonTile GetNeighbour(HexagonTile tile, int direction)
 		{
 			Vector3Int offset = tile.Hexagon.Direction(direction);
 

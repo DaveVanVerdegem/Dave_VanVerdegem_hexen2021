@@ -20,7 +20,7 @@ namespace DAE.GameSystem.Cards
 
 			if (tiles.Contains(tile))
 			{
-				_board.TryGetPosition(piece, out HexagonTile pieceTile);
+				_board.TryGetTile(piece, out HexagonTile pieceTile);
 				int direction = tile.GetDirectionFromTile(pieceTile);
 
 				_validTiles = Direction(direction);
@@ -54,7 +54,7 @@ namespace DAE.GameSystem.Cards
 		{
 			List<HexagonTile> tiles = new List<HexagonTile>();
 
-			if (!_board.TryGetPosition(GameLoop.Instance.PlayerPiece, out HexagonTile currentTile))
+			if (!_board.TryGetTile(GameLoop.Instance.PlayerPiece, out HexagonTile currentTile))
 				return tiles;
 
 			if (!_grid.TryGetCoordinatesAt(currentTile, out (int q, int r, int s) currentCoordinates))
