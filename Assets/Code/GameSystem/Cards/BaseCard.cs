@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace DAE.GameSystem.Cards
 {
-	public class BaseCard<TPiece, TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IDropHandler, ICard<TPiece, TTile>
+	public class BaseCard<TPiece, TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, ICard<TPiece, TTile>
 	{
 		#region Properties
 		public event EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> CardBeginDrag;
@@ -14,20 +15,20 @@ namespace DAE.GameSystem.Cards
 		#endregion
 
 		#region Fields
-		private RectTransform _rectTransform;
-
-		private Vector3 _originalPosition = Vector3.zero;
-
 		protected Board<TPiece, TTile> _board;
 		protected Grid<TTile> _grid;
-
 		protected List<TTile> _validTiles = new List<TTile>();
+
+		private RectTransform _rectTransform;
+		private Image _image;
+		private Vector3 _originalPosition = Vector3.zero;
 		#endregion
 
 		#region Life Cycle
 		private void Awake()
 		{
 			_rectTransform = GetComponent<RectTransform>();
+			_image = GetComponent<Image>();
 		}
 
 		public void Initialize(Board<TPiece, TTile> board, Grid<TTile> grid)
@@ -78,20 +79,22 @@ namespace DAE.GameSystem.Cards
 		public void OnBeginDrag(PointerEventData eventData)
 		{
 			_originalPosition = _rectTransform.position;
+			_image.raycastTarget = false;
 
 			OnCardBeginDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			_rectTransform.transform.position = eventData.position + Vector2.down;
+			_rectTransform.transform.position = eventData.position;// + Vector2.down;
 		}
 
-		public void OnDrop(PointerEventData eventData)
+		public void OnEndDrag(PointerEventData eventData)
 		{
 			Debug.Log("Dropped card");
 
 			_rectTransform.position = _originalPosition;
+			_image.raycastTarget = true;
 
 			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
