@@ -47,4 +47,5 @@ MonoBehaviour:
   _cardPrefabs:
   - {fileID: 8738943462116904342, guid: 41b2273385ac6d743b976069d5cf397c, type: 3}
   - {fileID: -4529213647025258167, guid: d228a8db95b408d4eb687cc214354cb7, type: 3}
+  - {fileID: 4663760268323995514, guid: c4e09bbc49eadf44889d6bc418cc5603, type: 3}
   _deckTransform: {fileID: 0}

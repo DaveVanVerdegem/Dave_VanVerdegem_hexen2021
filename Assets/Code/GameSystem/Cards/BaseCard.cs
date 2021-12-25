@@ -54,6 +54,15 @@ namespace DAE.GameSystem.Cards
 		{
 			throw new NotImplementedException();
 		}
+
+		protected void TakePiecesOnValidTiles()
+		{
+			foreach (TTile hexagonTile in _validTiles)
+			{
+				if (_board.TryGetPiece(hexagonTile, out TPiece pieceInRange))
+					_board.Take(pieceInRange);
+			}
+		}
 		#endregion
 
 		#region IDragHandler

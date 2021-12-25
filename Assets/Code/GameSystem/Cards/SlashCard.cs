@@ -21,7 +21,7 @@ namespace DAE.GameSystem.Cards
 			if (tiles.Contains(tile))
 			{
 				_board.TryGetPosition(piece, out HexagonTile pieceTile);
-				int direction = Directions.Get(Hexagon.Subtract(tile.Hexagon, pieceTile.Hexagon).Normalized().ToVector3Int());
+				int direction = tile.GetDirectionFromTile(pieceTile);
 
 				_validTiles = Direction(direction);
 			}
@@ -37,24 +37,20 @@ namespace DAE.GameSystem.Cards
 		{
 			if (!_validTiles.Contains(tile)) return false;
 
-			foreach (HexagonTile hexagonTile in _validTiles)
-			{
-				if (_board.TryGetPiece(hexagonTile, out Piece<HexagonTile> pieceInRange))
-					_board.Take(pieceInRange);
-			}
+			TakePiecesOnValidTiles();
 
 			base.Execute(piece, tile);
 
 			return true;
 		}
 
-		public List<HexagonTile> Direction(int direction, int maxSteps = int.MaxValue)
+		private List<HexagonTile> Direction(int direction, int maxSteps = int.MaxValue)
 		{
 			Vector3Int directionVector = Directions.Get(direction);
 			return Collect(directionVector.x, directionVector.y, directionVector.z, maxSteps);
 		}
 
-		public List<HexagonTile> Collect(int qOffset, int rOffset, int sOffset, int maxSteps = int.MaxValue)
+		private List<HexagonTile> Collect(int qOffset, int rOffset, int sOffset, int maxSteps = int.MaxValue)
 		{
 			List<HexagonTile> tiles = new List<HexagonTile>();
 

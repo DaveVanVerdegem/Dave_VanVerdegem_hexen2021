@@ -70,6 +70,10 @@ namespace DAE.GameSystem
 		#endregion
 
 		#region Methods
+		public int GetDirectionFromTile(HexagonTile otherTile)
+		{
+			return Directions.Get(Hexagon.Subtract(Hexagon, otherTile.Hexagon).Normalized().ToVector3Int());
+		}
 		#endregion
 
 		internal void DebugTile()
