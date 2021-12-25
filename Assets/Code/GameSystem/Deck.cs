@@ -1,7 +1,6 @@
 using DAE.BoardSystem;
 using DAE.GameSystem.Cards;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

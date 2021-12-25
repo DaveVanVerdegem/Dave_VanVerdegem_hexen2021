@@ -9,8 +9,8 @@ namespace DAE.BoardSystem
 	public class Board<TPiece, TTile>
 	{
 		#region Properties
-		public bool TryGetPiece(TTile position, out TPiece piece)
-			=> _pieces.TryGetKey(position, out piece);
+		public bool TryGetPiece(TTile tile, out TPiece piece)
+			=> _pieces.TryGetKey(tile, out piece);
 
 		public bool TryGetTile(TPiece piece, out TTile tile)
 			=> _pieces.TryGetValue(piece, out tile);
@@ -76,40 +76,40 @@ namespace DAE.BoardSystem
 	}
 
 	#region EventArgs
-	public class PiecePlacedEventArgs<TPiece, TPosition> : EventArgs
+	public class PiecePlacedEventArgs<TPiece, TTile> : EventArgs
 	{
-		public TPosition AtTile { get; }
+		public TTile AtTile { get; }
 		public TPiece Piece { get; }
 
-		public PiecePlacedEventArgs(TPiece piece, TPosition atPosition)
+		public PiecePlacedEventArgs(TPiece piece, TTile atTile)
 		{
-			AtTile = atPosition;
+			AtTile = atTile;
 			Piece = piece;
 		}
 	}
 
-	public class PieceMovedEventArgs<TPiece, TPosition>
+	public class PieceMovedEventArgs<TPiece, TTile>
 	{
-		public TPosition FromPosition { get; }
-		public TPosition ToTile { get; }
+		public TTile FromTile { get; }
+		public TTile ToTile { get; }
 		public TPiece Piece { get; }
 
-		public PieceMovedEventArgs(TPiece piece, TPosition fromPosition, TPosition toPosition)
+		public PieceMovedEventArgs(TPiece piece, TTile fromPosition, TTile toPosition)
 		{
-			FromPosition = fromPosition;
+			FromTile = fromPosition;
 			ToTile = toPosition;
 			Piece = piece;
 		}
 	}
 
-	public class PieceTakenEventArgs<TPiece, TPosition> : EventArgs
+	public class PieceTakenEventArgs<TPiece, TTile> : EventArgs
 	{
-		public TPosition FromTile { get; }
+		public TTile FromTile { get; }
 		public TPiece Piece { get; }
 
-		public PieceTakenEventArgs(TPiece piece, TPosition fromPosition)
+		public PieceTakenEventArgs(TPiece piece, TTile fromTile)
 		{
-			FromTile = fromPosition;
+			FromTile = fromTile;
 			Piece = piece;
 		}
 	} 

@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DAE.BoardSystem;
 using System;
-using DAE.HexenSystem;
-using DAE.SelectionSystem;
+using DAE.GameSystem;
 using DAE.GameSystem.Cards;
 
 namespace DAE.GameSystem
@@ -20,12 +18,12 @@ namespace DAE.GameSystem
 
 		#region Properties
 		public Piece<HexagonTile> PlayerPiece => _playerPiece;
-		public SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> SelectionManager => _selectionManager;
+		//public SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> SelectionManager => _selectionManager;
 		public BaseCard<Piece<HexagonTile>, HexagonTile> SelectedCard => _selectedCard;
 		#endregion
 
 		#region Fields
-		private SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> _selectionManager;
+		//private SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> _selectionManager;
 
 		private Board<Piece<HexagonTile>, HexagonTile> _board = new Board<Piece<HexagonTile>, HexagonTile>();
 
@@ -41,7 +39,7 @@ namespace DAE.GameSystem
 		#region Life Cycle
 		private void Start()
 		{
-			_selectionManager = new SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>>();
+			//_selectionManager = new SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>>();
 			
 
 			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();

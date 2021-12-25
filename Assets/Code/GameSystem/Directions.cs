@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Directions 
@@ -19,7 +16,7 @@ public class Directions
 	public static Vector3Int Get(int direction /* 0 to 5 */)
 	{
 		if (direction < 0 && direction >= 6)
-			throw new ArgumentOutOfRangeException("Direction should be between 0 to 5.");
+			direction = direction.Modulo(6);
 
 		return _directions[direction];
 	}

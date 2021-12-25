@@ -1,14 +1,12 @@
-using DAE.HexenSystem;
+using DAE.GameSystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace DAE.GameSystem
 {
-	public class HexagonTile : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IDropHandler, ITile
+	public class HexagonTile : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDropHandler, ITile
 	{
 		#region Inspector Fields
 		[SerializeField] private UnityEvent OnActivate;
@@ -18,7 +16,6 @@ namespace DAE.GameSystem
 		#region Properties
 		public event EventHandler<HexagonTileEventArgs> Entered;
 		public event EventHandler<HexagonTileEventArgs> Exited;
-		public event EventHandler<HexagonTileEventArgs> Clicked;
 		public Hexagon Hexagon { get; set; }
 
 		public bool Highlight
@@ -54,19 +51,6 @@ namespace DAE.GameSystem
 			EventHandler<HexagonTileEventArgs> handler = Exited;
 			handler?.Invoke(this, eventArgs);
 		}
-
-		public void OnPointerClick(PointerEventData eventData)
-		{
-			OnClick(new HexagonTileEventArgs(this));
-
-			DebugTile();
-		}
-
-		protected virtual void OnClick(HexagonTileEventArgs eventArgs)
-		{
-			EventHandler<HexagonTileEventArgs> handler = Clicked;
-			handler?.Invoke(this, eventArgs);
-		}
 		#endregion
 
 		#region Methods
@@ -75,11 +59,6 @@ namespace DAE.GameSystem
 			return Directions.Get(Hexagon.Subtract(Hexagon, otherTile.Hexagon).Normalized().ToVector3Int());
 		}
 		#endregion
-
-		internal void DebugTile()
-		{
-			Debug.Log($"Tile {name} at GP {Hexagon.ToVector3Int()} and WP {Hexagon.ToWorldPosition()}");
-		}
 
 		#region IDropHandler
 		public void OnDrop(PointerEventData eventData)

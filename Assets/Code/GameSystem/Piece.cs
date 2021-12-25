@@ -1,38 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace DAE.HexenSystem
+namespace DAE.GameSystem
 {
 	public class Piece<TTile> : MonoBehaviour, IPointerClickHandler where TTile: MonoBehaviour, ITile
 	{
-		#region Inspector Fields
-		[SerializeField]
-		private int _playerId;
-
-		//[SerializeField]
-		//private UnityEvent<bool> OnHighlight;
-		#endregion
-
 		#region Properties
-		public int PlayerID => _playerId;
-
 		public event EventHandler<PieceEventArgs<TTile>> Placed;
 		public event EventHandler<PieceEventArgs<TTile>> Taken;
 		public event EventHandler<PieceEventArgs<TTile>> Moved;
-
-		//public bool Highlight
-		//{
-		//	set
-		//	{
-		//		OnHighlight.Invoke(!value);
-		//	}
-		//}
 
 		public event EventHandler<ClickEventArgs<TTile>> Clicked;
 		#endregion

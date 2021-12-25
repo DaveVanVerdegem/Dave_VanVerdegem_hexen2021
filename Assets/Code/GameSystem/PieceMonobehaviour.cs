@@ -1,7 +1,4 @@
-using DAE.HexenSystem;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using DAE.GameSystem;
 
 namespace DAE.GameSystem
 {
