@@ -80,6 +80,7 @@ namespace DAE.GameSystem
 		#region IDropHandler
 		public void OnDrop(PointerEventData eventData)
 		{
+			Debug.Log("Dropped card on tile.", gameObject);
 			GameLoop.Instance.Execute(this);
 		}
 		#endregion

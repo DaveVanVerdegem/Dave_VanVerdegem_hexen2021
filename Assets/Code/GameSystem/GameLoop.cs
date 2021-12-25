@@ -14,7 +14,7 @@ namespace DAE.GameSystem
 		#region Inspector Fields
 		[SerializeField] private HexagonalGridHelper _helper = null;
 
-		[SerializeField] private BaseCard<Piece<HexagonTile>,HexagonTile> _cardPrefab = null;
+		[SerializeField] private List<BaseCard<Piece<HexagonTile>,HexagonTile>> _cardPrefabs = new List<BaseCard<Piece<HexagonTile>, HexagonTile>>();
 		[SerializeField] private Transform _deckTransform = null;
 		#endregion
 
@@ -57,7 +57,8 @@ namespace DAE.GameSystem
 
 			for (int i = 0; i < 10; i++)
 			{
-				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(_cardPrefab, _deckTransform);
+				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
+				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);
 				_deck.Register(card);
 
 				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);

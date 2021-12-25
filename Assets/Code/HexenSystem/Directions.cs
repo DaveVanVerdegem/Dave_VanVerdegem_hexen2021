@@ -23,5 +23,16 @@ public class Directions
 
 		return _directions[direction];
 	}
+
+	public static int Get(Vector3Int direction)
+	{
+		for (int i = 0; i < _directions.Length; i++)
+		{
+			if (direction == _directions[i])
+				return i;
+		}
+
+		return 0;
+	}
 	#endregion
 }

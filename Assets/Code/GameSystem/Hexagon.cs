@@ -98,6 +98,18 @@ namespace DAE.GameSystem
 
 		public static int Distance(Hexagon a, Hexagon b)
 			=> Length(Subtract(a, b));
+
+		public Hexagon Normalized()
+			=> Normalized(this);
+
+		public static Hexagon Normalized(Hexagon hexagon)
+		{
+			int normalizedQ = Mathf.Clamp(hexagon.Q, -1, 1);
+			int normalizedR = Mathf.Clamp(hexagon.R, -1, 1);
+			int normalizedS = Mathf.Clamp(hexagon.S, -1, 1);
+
+			return new Hexagon(normalizedQ, normalizedR, normalizedS);
+		}
 		#endregion
 
 		#region Neighbor Methods
@@ -121,6 +133,9 @@ namespace DAE.GameSystem
 		#region Convertors
 		public Vector3Int ToVector3Int()
 			=> new Vector3Int(Q, R, S);
+
+		public override string ToString()
+			=> $"({Q}, {R}, {S})";
 		#endregion
 	} 
 }
