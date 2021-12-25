@@ -112,6 +112,10 @@ namespace DAE.GameSystem
 				Piece<HexagonTile> piece = Instantiate(piecePrefab, tile.transform.position, Quaternion.identity);
 				_board.Place(piece, tile);
 
+				_board.PieceMoved += (sender, eventArgs) => eventArgs.Piece.MoveTo(eventArgs.ToTile);
+				_board.PiecePlaced += (sender, eventArgs) => eventArgs.Piece.PlaceAt(eventArgs.AtTile);
+				_board.PieceTaken += (sender, eventArgs) => eventArgs.Piece.TakeFrom(eventArgs.FromTile);
+
 				return piece;
 			}
 			else
@@ -152,9 +156,9 @@ namespace DAE.GameSystem
 		}
 
 		public void DeselectAll()
-			=> _selectionManager.DeselectAll();
+		{
+			_selectedCard = null;
+		}
 		#endregion
-
-
 	}
 }

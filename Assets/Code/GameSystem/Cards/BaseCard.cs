@@ -91,6 +91,7 @@ namespace DAE.GameSystem.Cards
 			Debug.Log("Dropped card");
 
 			_rectTransform.position = _originalPosition;
+			GameLoop.Instance.DeselectAll();
 
 			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
