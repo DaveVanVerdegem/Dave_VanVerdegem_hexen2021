@@ -9,18 +9,6 @@ namespace DAE.GameSystem.Cards
 {
 	public class TeleportCard : BaseCard<Piece<HexagonTile>, HexagonTile>
 	{
-		#region Inspector Fields
-
-		#endregion
-
-		#region Properties
-
-		#endregion
-
-		#region Fields
-
-		#endregion
-
 		#region Methods
 		public override List<HexagonTile> Positions(Piece<HexagonTile> piece, HexagonTile tile)
 		{

@@ -42,19 +42,19 @@ namespace DAE.HexenSystem
 		#endregion
 
 		#region Methods
-		internal void MoveTo(TTile position)
+		public void MoveTo(TTile tile)
 		{
-			OnMoved(new PieceEventArgs<TTile>(position));
+			OnMoved(new PieceEventArgs<TTile>(tile));
 		}
 
-		internal void TakeFrom(TTile position)
+		public void TakeFrom(TTile tile)
 		{
-			OnTaken(new PieceEventArgs<TTile>(position));
+			OnTaken(new PieceEventArgs<TTile>(tile));
 		}
 
-		internal void PlaceAt(TTile position)
+		public void PlaceAt(TTile tile)
 		{
-			OnPlaced(new PieceEventArgs<TTile>(position));
+			OnPlaced(new PieceEventArgs<TTile>(tile));
 		}
 
 		protected virtual void OnPlaced(PieceEventArgs<TTile> eventArgs)
@@ -62,7 +62,7 @@ namespace DAE.HexenSystem
 			EventHandler<PieceEventArgs<TTile>> handler = Placed;
 			handler?.Invoke(this, eventArgs);
 
-			transform.position = eventArgs.Position.transform.position;
+			transform.position = eventArgs.Tile.transform.position;
 			gameObject.SetActive(true);
 		}
 
@@ -71,7 +71,7 @@ namespace DAE.HexenSystem
 			EventHandler<PieceEventArgs<TTile>> handler = Moved;
 			handler?.Invoke(this, eventArgs);
 
-			transform.position = eventArgs.Position.transform.position;
+			transform.position = eventArgs.Tile.transform.position;
 		}
 
 		protected virtual void OnTaken(PieceEventArgs<TTile> eventArgs)
@@ -86,27 +86,25 @@ namespace DAE.HexenSystem
 		#region IPointerClickHandler
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			//Debug.Log($"Clicked {gameObject.name}");
-
 			OnClicked(new ClickEventArgs<TTile>(this));
 		}
 
 		protected virtual void OnClicked(ClickEventArgs<TTile> eventArgs)
 		{
-			var handler = Clicked;
+			EventHandler<ClickEventArgs<TTile>> handler = Clicked;
 			handler?.Invoke(this, eventArgs);
 		}
 		#endregion
 	}
 
 	#region EventArgs
-	public class PieceEventArgs<TPosition> : EventArgs
+	public class PieceEventArgs<TTile> : EventArgs
 	{
-		public TPosition Position { get; }
+		public TTile Tile { get; }
 
-		public PieceEventArgs(TPosition position)
+		public PieceEventArgs(TTile tile)
 		{
-			Position = position;
+			Tile = tile;
 		}
 	}
 
@@ -120,11 +118,11 @@ namespace DAE.HexenSystem
 		}
 	}
 
-	public class ClickEventArgs<TPosition> : EventArgs where TPosition : MonoBehaviour, ITile
+	public class ClickEventArgs<TTile> : EventArgs where TTile : MonoBehaviour, ITile
 	{
-		public Piece<TPosition> Piece { get; }
+		public Piece<TTile> Piece { get; }
 
-		public ClickEventArgs(Piece<TPosition> piece)
+		public ClickEventArgs(Piece<TTile> piece)
 		{
 			Piece = piece;
 		}

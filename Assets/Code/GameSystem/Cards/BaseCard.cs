@@ -30,15 +30,12 @@ namespace DAE.GameSystem.Cards
 		protected Grid<TTile> _grid;
 
 		protected List<TTile> _validTiles = new List<TTile>();
-
-		//private Image _image = null;
 		#endregion
 
 		#region Life Cycle
 		private void Awake()
 		{
 			_rectTransform = GetComponent<RectTransform>();
-			//_image = GetComponent<Image>();
 		}
 
 		public void Initialize(Board<TPiece, TTile> board, Grid<TTile> grid)
@@ -80,7 +77,6 @@ namespace DAE.GameSystem.Cards
 		public void OnBeginDrag(PointerEventData eventData)
 		{
 			_originalPosition = _rectTransform.position;
-			//_image.raycastTarget = false;
 
 			OnCardBeginDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
@@ -92,12 +88,9 @@ namespace DAE.GameSystem.Cards
 
 		public void OnDrop(PointerEventData eventData)
 		{
-			//GameLoop.Instance.UnhighlightAll();
-
 			Debug.Log("Dropped card");
 
 			_rectTransform.position = _originalPosition;
-			//_image.raycastTarget = true;
 
 			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}

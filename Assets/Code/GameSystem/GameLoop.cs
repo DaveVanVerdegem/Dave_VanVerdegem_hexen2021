@@ -26,13 +26,10 @@ namespace DAE.GameSystem
 
 		#region Fields
 		private SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> _selectionManager;
-		private int _currentPlayerID = 0;
 
 		private Board<Piece<HexagonTile>, HexagonTile> _board = new Board<Piece<HexagonTile>, HexagonTile>();
 
 		private Grid<HexagonTile> _grid = new Grid<HexagonTile>();
-
-		private MoveManager<HexagonTile> _moveManager;
 
 		private Piece<HexagonTile> _playerPiece = null;
 
@@ -49,22 +46,6 @@ namespace DAE.GameSystem
 
 			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
 			HexagonalGrid hexagonalGrid = new HexagonalGrid(_helper.GridRadius);
-
-			_moveManager = new MoveManager<HexagonTile>(_board, _grid);
-
-			_selectionManager.Selected += (sender, eventArgs) =>
-			{
-				//List<HexagonTile> tiles = _moveManager.ValidPositionsFor(eventArgs.SelectedItem);
-				//foreach (HexagonTile tile in tiles)
-				//	tile.Highlight = true;
-			};
-
-			_selectionManager.Deselected += (sender, eventArgs) =>
-			{
-				//List<HexagonTile> tiles = _moveManager.ValidPositionsFor(eventArgs.SelectedItem);
-				//foreach (HexagonTile tile in tiles)
-				//	tile.Highlight = false;
-			};
 
 			PlaceTiles(hexagonalGrid);
 			RegisterTiles(hexagonalGrid, _grid);
@@ -103,8 +84,6 @@ namespace DAE.GameSystem
 				HexagonTile tile = Instantiate(_helper.HexagonPrefab, hexagon.ToWorldPosition(), Quaternion.identity, transform);
 				tile.Hexagon = hexagon;
 				hexagon.HexagonTile = tile;
-
-				//tile.Entered += (sender, eventArgs) => 
 			}
 		}
 
@@ -169,7 +148,6 @@ namespace DAE.GameSystem
 
 		private void Select(BaseCard<Piece<HexagonTile>, HexagonTile> card)
 		{
-			//_selectionManager.Select(card);
 			_selectedCard = card;
 		}
 

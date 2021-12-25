@@ -36,8 +36,6 @@ namespace DAE.GameSystem
 		#region IPointerHandler
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			Debug.Log("Entered Tile.");
-
 			GameLoop.Instance.Highlight(this);
 		}
 
@@ -49,7 +47,6 @@ namespace DAE.GameSystem
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			Debug.Log("Exited Tile.");
 		}
 
 		protected virtual void OnExited(HexagonTileEventArgs eventArgs)

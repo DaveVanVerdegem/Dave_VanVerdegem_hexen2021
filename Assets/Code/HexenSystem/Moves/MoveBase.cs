@@ -31,8 +31,6 @@ namespace DAE.HexenSystem.Moves
 		{
 			if (_board.TryGetPiece(position, out var toPiece))
 				_board.Take(toPiece);
-
-			//_board.Move(piece, position);
 		}
 
 		public abstract List<TTile> Positions(Piece<TTile> piece); 

@@ -78,12 +78,12 @@ namespace DAE.BoardSystem
 	#region EventArgs
 	public class PiecePlacedEventArgs<TPiece, TPosition> : EventArgs
 	{
-		public TPosition AtPosition { get; }
+		public TPosition AtTile { get; }
 		public TPiece Piece { get; }
 
 		public PiecePlacedEventArgs(TPiece piece, TPosition atPosition)
 		{
-			AtPosition = atPosition;
+			AtTile = atPosition;
 			Piece = piece;
 		}
 	}
@@ -91,25 +91,25 @@ namespace DAE.BoardSystem
 	public class PieceMovedEventArgs<TPiece, TPosition>
 	{
 		public TPosition FromPosition { get; }
-		public TPosition ToPosition { get; }
+		public TPosition ToTile { get; }
 		public TPiece Piece { get; }
 
 		public PieceMovedEventArgs(TPiece piece, TPosition fromPosition, TPosition toPosition)
 		{
 			FromPosition = fromPosition;
-			ToPosition = toPosition;
+			ToTile = toPosition;
 			Piece = piece;
 		}
 	}
 
 	public class PieceTakenEventArgs<TPiece, TPosition> : EventArgs
 	{
-		public TPosition FromPosition { get; }
+		public TPosition FromTile { get; }
 		public TPiece Piece { get; }
 
 		public PieceTakenEventArgs(TPiece piece, TPosition fromPosition)
 		{
-			FromPosition = fromPosition;
+			FromTile = fromPosition;
 			Piece = piece;
 		}
 	} 
