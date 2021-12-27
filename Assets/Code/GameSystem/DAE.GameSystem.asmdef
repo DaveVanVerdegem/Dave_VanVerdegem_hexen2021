@@ -2,7 +2,9 @@
     "name": "DAE.GameSystem",
     "rootNamespace": "",
     "references": [
-        "GUID:469be94cfb8a4de4bb178d305340919e"
+        "GUID:469be94cfb8a4de4bb178d305340919e",
+        "GUID:307eb9aa0659ed44d8e6a013fc300db5",
+        "GUID:65375a4eb444c944dbceb14ccf971231"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
