@@ -18,30 +18,20 @@ namespace DAE.GameSystem
 
 		#region Properties
 		public Piece<HexagonTile> PlayerPiece => _playerPiece;
-		//public SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> SelectionManager => _selectionManager;
 		public BaseCard<Piece<HexagonTile>, HexagonTile> SelectedCard => _selectedCard;
 		#endregion
 
 		#region Fields
-		//private SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>> _selectionManager;
-
 		private Board<Piece<HexagonTile>, HexagonTile> _board = new Board<Piece<HexagonTile>, HexagonTile>();
-
 		private Grid<HexagonTile> _grid = new Grid<HexagonTile>();
-
 		private Piece<HexagonTile> _playerPiece = null;
-
 		private Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile> _deck;
-
 		private BaseCard<Piece<HexagonTile>, HexagonTile> _selectedCard;
 		#endregion
 
 		#region Life Cycle
 		private void Start()
 		{
-			//_selectionManager = new SelectionManager<BaseCard<Piece<HexagonTile>, HexagonTile>>();
-			
-
 			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
 			HexagonalGrid hexagonalGrid = new HexagonalGrid(_helper.GridRadius);
 
@@ -103,7 +93,6 @@ namespace DAE.GameSystem
 			SpawnPiece(_helper.EnemyPiecePrefab, 1, 2, -3);
 		}
 
-
 		private Piece<HexagonTile> SpawnPiece(Piece<HexagonTile> piecePrefab, int q, int r, int s)
 		{
 			if(_grid.TryGetTileAt(q, r, s, out HexagonTile tile))
@@ -128,12 +117,10 @@ namespace DAE.GameSystem
 			if (hexagonTile == null) return;
 			if (SelectedCard == null) return;
 
-			UnhighlightAll();
-
 			List<HexagonTile> tiles = SelectedCard.Positions(PlayerPiece, hexagonTile);
 
 			foreach (HexagonTile tile in tiles)
-				tile.Highlight = true;
+				if(tile!= null) tile.Highlight = true;
 		}
 
 		public void Execute(HexagonTile hexagonTile)

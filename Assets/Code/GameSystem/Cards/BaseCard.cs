@@ -86,13 +86,11 @@ namespace DAE.GameSystem.Cards
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			_rectTransform.transform.position = eventData.position;// + Vector2.down;
+			_rectTransform.transform.position = eventData.position;
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			Debug.Log("Dropped card");
-
 			_rectTransform.position = _originalPosition;
 			_image.raycastTarget = true;
 

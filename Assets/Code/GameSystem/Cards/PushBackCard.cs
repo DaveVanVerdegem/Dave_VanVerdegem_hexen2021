@@ -28,9 +28,8 @@ namespace DAE.GameSystem.Cards
 		{
 			if (_board.TryGetTile(piece, out HexagonTile pieceTile) == false) return;
 
-			HexagonTile targetTile = GetNeighbour(pieceTile, direction);
 
-			if (targetTile == null)
+			if(!TryGetNeighbour(pieceTile, direction, out HexagonTile targetTile))
 			{
 				_board.Take(piece);
 				return;

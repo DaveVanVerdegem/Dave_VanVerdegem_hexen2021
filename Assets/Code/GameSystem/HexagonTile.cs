@@ -44,6 +44,7 @@ namespace DAE.GameSystem
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
+			GameLoop.Instance.UnhighlightAll();
 		}
 
 		protected virtual void OnExited(HexagonTileEventArgs eventArgs)
@@ -63,7 +64,6 @@ namespace DAE.GameSystem
 		#region IDropHandler
 		public void OnDrop(PointerEventData eventData)
 		{
-			Debug.Log("Dropped card on tile.", gameObject);
 			GameLoop.Instance.Execute(this);
 		}
 		#endregion

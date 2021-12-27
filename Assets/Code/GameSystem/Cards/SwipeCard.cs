@@ -16,12 +16,17 @@ namespace DAE.GameSystem.Cards
 			{
 				int direction = tile.GetDirectionFromTile(playerTile);
 
-				_validTiles = new List<HexagonTile>
-				{
-					GetNeighbour(playerTile, (direction - 1).Modulo(6)),
-					GetNeighbour(playerTile, (direction).Modulo(6)),
-					GetNeighbour(playerTile, (direction + 1).Modulo(6))
-				};
+				_validTiles = new List<HexagonTile>();
+
+				HexagonTile neighbourTile = null;
+				if (TryGetNeighbour(playerTile, (direction - 1).Modulo(6), out neighbourTile)) 
+					_validTiles.Add(neighbourTile);
+
+				if (TryGetNeighbour(playerTile, (direction).Modulo(6), out neighbourTile))
+					_validTiles.Add(neighbourTile);
+
+				if (TryGetNeighbour(playerTile, (direction + 1).Modulo(6), out neighbourTile))
+					_validTiles.Add(neighbourTile);
 			}
 			else
 			{
@@ -48,21 +53,19 @@ namespace DAE.GameSystem.Cards
 
 			for (int i = 0; i < 6; i++)
 			{
-				HexagonTile hexagonTile = GetNeighbour(tile, i);
-				if (hexagonTile != null)
-					tiles.Add(hexagonTile);
+				if(TryGetNeighbour(tile, i, out HexagonTile neighbour))
+					tiles.Add(neighbour);
 			}
 
 			return tiles;
 		}
 
-		protected HexagonTile GetNeighbour(HexagonTile tile, int direction)
+		protected bool TryGetNeighbour(HexagonTile startingTile, int direction, out HexagonTile neighbourTile)
 		{
-			Vector3Int offset = tile.Hexagon.Direction(direction);
+			neighbourTile = null;
+			Vector3Int offset = startingTile.Hexagon.Direction(direction);
 
-			_grid.TryGetTileAt(tile.Hexagon.Q + offset.x, tile.Hexagon.R + offset.y, tile.Hexagon.S + offset.z, out HexagonTile neighbourTile);
-
-			return neighbourTile;	
+			return _grid.TryGetTileAt(startingTile.Hexagon.Q + offset.x, startingTile.Hexagon.R + offset.y, startingTile.Hexagon.S + offset.z, out neighbourTile);
 		}
 		#endregion
 	}
