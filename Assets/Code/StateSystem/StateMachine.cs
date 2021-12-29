@@ -17,6 +17,8 @@ namespace DAE.StateSystem
 				CurrentState.OnEnter();
 			}
 		}
+
+		public Dictionary<string, TState> States => _states;
 		#endregion
 
 		#region Fields

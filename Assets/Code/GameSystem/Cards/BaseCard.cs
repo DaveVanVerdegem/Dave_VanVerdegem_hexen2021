@@ -22,6 +22,8 @@ namespace DAE.GameSystem.Cards
 		private RectTransform _rectTransform;
 		private Image _image;
 		private Vector3 _originalPosition = Vector3.zero;
+
+		private bool _dragging = false;
 		#endregion
 
 		#region Life Cycle
@@ -93,21 +95,29 @@ namespace DAE.GameSystem.Cards
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
+			if (!GameLoop.Instance.InPlayState) return;
+
 			_originalPosition = _rectTransform.position;
 			_image.raycastTarget = false;
+			_dragging = true;
 
 			OnCardBeginDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
+			if (!_dragging) return;
+
 			_rectTransform.transform.position = eventData.position;
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
+			if (!_dragging) return;
+
 			_rectTransform.position = _originalPosition;
 			_image.raycastTarget = true;
+			_dragging = false;
 
 			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}

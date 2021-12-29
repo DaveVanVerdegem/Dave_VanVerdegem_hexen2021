@@ -22,6 +22,7 @@ namespace DAE.GameSystem
 		#region Properties
 		public Piece<HexagonTile> PlayerPiece => _playerPiece;
 		public BaseCard<Piece<HexagonTile>, HexagonTile> SelectedCard => _selectedCard;
+		public bool InPlayState => _gameStateMachine.CurrentState ==  _gameStateMachine.States[GameStateBase.PlayingState];
 		#endregion
 
 		#region Fields
@@ -141,6 +142,7 @@ namespace DAE.GameSystem
 		public void Execute(HexagonTile hexagonTile)
 		{
 			_deck.PlayCard(SelectedCard, PlayerPiece, hexagonTile);
+			DeselectAll();
 		}
 
 		public void UnhighlightAll()
