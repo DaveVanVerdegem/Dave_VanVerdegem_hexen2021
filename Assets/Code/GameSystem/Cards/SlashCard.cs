@@ -39,7 +39,17 @@ namespace DAE.GameSystem.Cards
 
 			if (!_validTiles.Contains(tile)) return;
 
-			TakePiecesOnValidTiles();
+			CanTakePieces(out Dictionary<Piece<HexagonTile>, HexagonTile> piecesToTake);
+
+			forward = () =>
+			{
+				TakePieces(piecesToTake);
+			};
+
+			backward = () =>
+			{
+				PlacePieces(piecesToTake);
+			};
 		}
 
 		private List<HexagonTile> Direction(int direction, int maxSteps = int.MaxValue)

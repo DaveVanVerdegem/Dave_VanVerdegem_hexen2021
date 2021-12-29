@@ -21,16 +21,23 @@ namespace DAE.GameSystem
 		#region Methods
 		public void MoveTo(TTile tile)
 		{
+			transform.position = tile.transform.position;
+
 			OnMoved(new PieceEventArgs<TTile>(tile));
 		}
 
 		public void TakeFrom(TTile tile)
 		{
+			gameObject.SetActive(false);
+
 			OnTaken(new PieceEventArgs<TTile>(tile));
 		}
 
 		public void PlaceAt(TTile tile)
 		{
+			transform.position = tile.transform.position;
+			gameObject.SetActive(true);
+
 			OnPlaced(new PieceEventArgs<TTile>(tile));
 		}
 		#endregion
@@ -40,25 +47,18 @@ namespace DAE.GameSystem
 		{
 			EventHandler<PieceEventArgs<TTile>> handler = Placed;
 			handler?.Invoke(this, eventArgs);
-
-			transform.position = eventArgs.Tile.transform.position;
-			gameObject.SetActive(true);
 		}
 
 		protected virtual void OnMoved(PieceEventArgs<TTile> eventArgs)
 		{
 			EventHandler<PieceEventArgs<TTile>> handler = Moved;
 			handler?.Invoke(this, eventArgs);
-
-			transform.position = eventArgs.Tile.transform.position;
 		}
 
 		protected virtual void OnTaken(PieceEventArgs<TTile> eventArgs)
 		{
 			EventHandler<PieceEventArgs<TTile>> handler = Taken;
 			handler?.Invoke(this, eventArgs);
-
-			gameObject.SetActive(false);
 		}
 		#endregion
 
