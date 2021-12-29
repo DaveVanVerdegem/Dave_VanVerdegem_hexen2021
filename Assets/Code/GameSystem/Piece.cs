@@ -33,7 +33,9 @@ namespace DAE.GameSystem
 		{
 			OnPlaced(new PieceEventArgs<TTile>(tile));
 		}
+		#endregion
 
+		#region Events
 		protected virtual void OnPlaced(PieceEventArgs<TTile> eventArgs)
 		{
 			EventHandler<PieceEventArgs<TTile>> handler = Placed;

@@ -52,18 +52,9 @@ namespace DAE.GameSystem
 			SpawnPlayer();
 			SpawnEnemies();
 
-			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid);
+			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid, replayManager);
 
-			for (int i = 0; i < 10; i++)
-			{
-				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
-				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);
-				_deck.Register(card);
-
-				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
-				card.CardEndDrag += (sender, eventArgs) => DeselectAll();
-			}
-
+			SpawnCards();
 			_deck.FillHand();
 		}
 		#endregion
@@ -120,6 +111,19 @@ namespace DAE.GameSystem
 			else
 			{
 				throw new Exception("Given coordinates don't exist!");
+			}
+		}
+
+		private void SpawnCards()
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
+				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);
+				_deck.Register(card);
+
+				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
+				card.CardEndDrag += (sender, eventArgs) => DeselectAll();
 			}
 		}
 

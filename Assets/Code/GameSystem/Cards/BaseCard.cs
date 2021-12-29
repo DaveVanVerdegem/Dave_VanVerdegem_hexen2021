@@ -41,12 +41,27 @@ namespace DAE.GameSystem.Cards
 		#endregion
 
 		#region Methods
-		public virtual bool Execute(TPiece piece, TTile tile)
+		public virtual void Execute(TPiece piece, TTile tile, out Action forward, out Action backward)
 		{
-			gameObject.SetActive(false);
+			forward = null;
+			backward = null;
 
-			return true;
+			if (!_board.TryGetTile(piece, out TTile previousTile))
+				return;
+
+			forward = () =>
+			{
+				gameObject.SetActive(false);
+			};
+
+			backward = () =>
+			{
+				gameObject.SetActive(true);
+			};
 		}
+
+		public bool CanExecute(TTile tile)
+			=> _validTiles.Contains(tile);
 
 		public virtual List<TTile> Positions(TPiece piece, TTile tile)
 		{

@@ -1,13 +1,17 @@
 using DAE.GameSystem;
+using System;
 
 namespace DAE.GameSystem.Cards
 {
 	public class PushBackCard : SwipeCard
 	{
 		#region Methods
-		public override bool Execute(Piece<HexagonTile> piece, HexagonTile tile)
+		public override void Execute(Piece<HexagonTile> piece, HexagonTile tile, out Action forward, out Action backward)
 		{
-			if (!_validTiles.Contains(tile)) return false;
+			forward = null;
+			backward = null;
+
+			if (!_validTiles.Contains(tile)) return;
 
 			_board.TryGetTile(piece, out HexagonTile playerTile);
 
@@ -20,8 +24,6 @@ namespace DAE.GameSystem.Cards
 			}
 
 			gameObject.SetActive(false);
-
-			return true;
 		}
 
 		private void PushPiece(Piece<HexagonTile> piece, int direction)

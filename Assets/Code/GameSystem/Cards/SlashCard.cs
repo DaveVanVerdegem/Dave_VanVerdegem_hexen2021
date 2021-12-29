@@ -1,4 +1,5 @@
 using DAE.GameSystem;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,15 +32,14 @@ namespace DAE.GameSystem.Cards
 			return _validTiles;
 		}
 
-		public override bool Execute(Piece<HexagonTile> piece, HexagonTile tile)
+		public override void Execute(Piece<HexagonTile> piece, HexagonTile tile, out Action forward, out Action backward)
 		{
-			if (!_validTiles.Contains(tile)) return false;
+			forward = null;
+			backward = null;
+
+			if (!_validTiles.Contains(tile)) return;
 
 			TakePiecesOnValidTiles();
-
-			base.Execute(piece, tile);
-
-			return true;
 		}
 
 		private List<HexagonTile> Direction(int direction, int maxSteps = int.MaxValue)
