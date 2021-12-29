@@ -1,17 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace DAE.ReplaySystem
 {
 
 	public class ReplayManager
 	{
+		#region Fields
 		private List<IReplayCommand> _replayCommands = new List<IReplayCommand>();
-		private int _currentCommand = - 1;
+		private int _currentCommand = -1; 
+		#endregion
 
-		public bool IsAtEnd => _currentCommand >= _replayCommands.Count - 1;
+		#region Properties
+		public bool IsAtEnd => _currentCommand >= _replayCommands.Count - 1; 
+		#endregion
 
+		#region Methods
 		public void Execute(IReplayCommand command)
 		{
 			_replayCommands.Add(command);
@@ -33,6 +36,7 @@ namespace DAE.ReplaySystem
 
 			_currentCommand += 1;
 			_replayCommands[_currentCommand].Forward();
-		}
+		} 
+		#endregion
 	} 
 }

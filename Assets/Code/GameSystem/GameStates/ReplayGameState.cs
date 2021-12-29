@@ -10,13 +10,18 @@ namespace DAE.GameSystem.GameStates
 {
 	class ReplayGameState : GameStateBase
 	{
-		private readonly ReplayManager _replayManager;
+		#region Fields
+		private readonly ReplayManager _replayManager; 
+		#endregion
 
+		#region Constructors
 		public ReplayGameState(StateMachine<GameStateBase> stateMachine, ReplayManager replayManager) : base(stateMachine)
 		{
 			_replayManager = replayManager;
-		}
+		} 
+		#endregion
 
+		#region Methods
 		public override void OnEnter()
 		{
 			Backward();
@@ -33,6 +38,7 @@ namespace DAE.GameSystem.GameStates
 
 			if (_replayManager.IsAtEnd)
 				StateMachine.MoveTo(PlayingState);
-		}
+		} 
+		#endregion
 	}
 }

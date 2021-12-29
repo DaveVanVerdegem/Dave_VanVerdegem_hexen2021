@@ -1,4 +1,3 @@
-using DAE.GameSystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +38,7 @@ namespace DAE.GameSystem.Cards
 
 			if (!_validTiles.Contains(tile)) return;
 
-			CanTakePieces(out Dictionary<Piece<HexagonTile>, HexagonTile> piecesToTake);
+			Dictionary<Piece<HexagonTile>, HexagonTile> piecesToTake = PiecesOnValidTiles();
 
 			forward = () =>
 			{

@@ -70,9 +70,9 @@ namespace DAE.GameSystem.Cards
 			throw new NotImplementedException();
 		}
 
-		protected bool CanTakePieces(out Dictionary<TPiece, TTile> pieces)
+		protected Dictionary<TPiece, TTile> PiecesOnValidTiles()
 		{
-			pieces = new Dictionary<TPiece, TTile>();
+			Dictionary<TPiece, TTile> pieces = new Dictionary<TPiece, TTile>();
 
 			foreach (TTile hexagonTile in _validTiles)
 			{
@@ -80,7 +80,7 @@ namespace DAE.GameSystem.Cards
 					pieces.Add(pieceInRange, hexagonTile);
 			}
 
-			return pieces.Count > 0;
+			return pieces;
 		}
 
 		protected void TakePieces(Dictionary<TPiece, TTile> pieces)
@@ -95,15 +95,6 @@ namespace DAE.GameSystem.Cards
 			{
 				_board.Place(piece.Key, piece.Value);
 			}	
-		}
-
-		protected void TakePiecesOnValidTiles()
-		{
-			foreach (TTile hexagonTile in _validTiles)
-			{
-				if (_board.TryGetPiece(hexagonTile, out TPiece pieceInRange))
-					_board.Take(pieceInRange);
-			}
 		}
 		#endregion
 

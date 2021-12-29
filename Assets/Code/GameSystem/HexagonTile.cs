@@ -64,7 +64,8 @@ namespace DAE.GameSystem
 		#region IDropHandler
 		public void OnDrop(PointerEventData eventData)
 		{
-			GameLoop.Instance.Execute(this);
+			if(GameLoop.Instance.InPlayState)
+				GameLoop.Instance.Execute(this);
 		}
 		#endregion
 	}
