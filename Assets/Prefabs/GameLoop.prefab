@@ -49,4 +49,5 @@ MonoBehaviour:
   - {fileID: -4529213647025258167, guid: d228a8db95b408d4eb687cc214354cb7, type: 3}
   - {fileID: 4663760268323995514, guid: c4e09bbc49eadf44889d6bc418cc5603, type: 3}
   - {fileID: 8834957975448790367, guid: 922e305cadebeaf4e9af36e477544815, type: 3}
+  - {fileID: -5126779495010912682, guid: d6a3ad37d2f7887429b9f0ac3f0c4330, type: 3}
   _deckTransform: {fileID: 0}

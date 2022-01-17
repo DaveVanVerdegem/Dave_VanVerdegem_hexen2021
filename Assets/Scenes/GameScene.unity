@@ -575,6 +575,14 @@ PrefabInstance:
       propertyPath: _deckTransform
       value: 
       objectReference: {fileID: 231604863}
+    - target: {fileID: -685969063455110086, guid: 199ad59b12608294583840e0fb543f6c, type: 3}
+      propertyPath: _cardPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -685969063455110086, guid: 199ad59b12608294583840e0fb543f6c, type: 3}
+      propertyPath: _cardPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: -5126779495010912682, guid: d6a3ad37d2f7887429b9f0ac3f0c4330, type: 3}
     - target: {fileID: 1157101128552355546, guid: 199ad59b12608294583840e0fb543f6c, type: 3}
       propertyPath: m_RootOrder
       value: 2

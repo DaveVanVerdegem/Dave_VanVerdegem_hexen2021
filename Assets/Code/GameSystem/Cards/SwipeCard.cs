@@ -47,7 +47,7 @@ namespace DAE.GameSystem.Cards
 			return true;
 		}
 
-		private List<HexagonTile> GetNeighbours(HexagonTile tile)
+		protected List<HexagonTile> GetNeighbours(HexagonTile tile)
 		{
 			List<HexagonTile> tiles = new List<HexagonTile>();
 
