@@ -1,4 +1,4 @@
-using DAE.GameSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,15 +26,23 @@ namespace DAE.GameSystem.Cards
 			return _validTiles;
 		}
 
-		public override bool Execute(Piece<HexagonTile> piece, HexagonTile tile)
+		public override void Execute(Piece<HexagonTile> piece, HexagonTile tile, out Action forward, out Action backward)
 		{
-			if (!_validTiles.Contains(tile)) return false;
+			forward = null;
+			backward = null;
 
-			_board.Move(piece, tile);
+			if (!_board.TryGetTile(piece, out HexagonTile previousTile))
+				return;
 
-			base.Execute(piece, tile);
+			forward = () =>
+			{
+				_board.Move(piece, tile);
+			};
 
-			return true;
+			backward = () =>
+			{
+				_board.Move(piece, previousTile);
+			};
 		}
 		#endregion
 	} 

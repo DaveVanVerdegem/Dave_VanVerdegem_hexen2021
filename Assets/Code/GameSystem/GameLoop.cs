@@ -4,6 +4,9 @@ using DAE.BoardSystem;
 using System;
 using DAE.GameSystem;
 using DAE.GameSystem.Cards;
+using DAE.StateSystem;
+using DAE.GameSystem.GameStates;
+using DAE.ReplaySystem;
 
 namespace DAE.GameSystem
 {
@@ -19,6 +22,7 @@ namespace DAE.GameSystem
 		#region Properties
 		public Piece<HexagonTile> PlayerPiece => _playerPiece;
 		public BaseCard<Piece<HexagonTile>, HexagonTile> SelectedCard => _selectedCard;
+		public bool InPlayState => _gameStateMachine.CurrentState ==  _gameStateMachine.States[GameStateBase.PlayingState];
 		#endregion
 
 		#region Fields
@@ -27,13 +31,21 @@ namespace DAE.GameSystem
 		private Piece<HexagonTile> _playerPiece = null;
 		private Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile> _deck;
 		private BaseCard<Piece<HexagonTile>, HexagonTile> _selectedCard;
+		private StateMachine<GameStateBase> _gameStateMachine;
 		#endregion
 
 		#region Life Cycle
 		private void Start()
 		{
-			Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
+			//Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
 			HexagonalGrid hexagonalGrid = new HexagonalGrid(_helper.GridRadius);
+			ReplayManager replayManager = new ReplayManager();
+
+			_gameStateMachine = new StateMachine<GameStateBase>();
+			_gameStateMachine.Register(GameStateBase.PlayingState, new PlayingGameState(_gameStateMachine, _board, _grid, replayManager));
+			_gameStateMachine.Register(GameStateBase.ReplayingState, new ReplayGameState(_gameStateMachine, replayManager));
+
+			_gameStateMachine.InitialState = GameStateBase.PlayingState;
 
 			PlaceTiles(hexagonalGrid);
 			RegisterTiles(hexagonalGrid, _grid);
@@ -41,18 +53,9 @@ namespace DAE.GameSystem
 			SpawnPlayer();
 			SpawnEnemies();
 
-			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid);
+			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid, replayManager);
 
-			for (int i = 0; i < 10; i++)
-			{
-				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
-				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);
-				_deck.Register(card);
-
-				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
-				card.CardEndDrag += (sender, eventArgs) => DeselectAll();
-			}
-
+			SpawnCards();
 			_deck.FillHand();
 		}
 		#endregion
@@ -112,6 +115,19 @@ namespace DAE.GameSystem
 			}
 		}
 
+		private void SpawnCards()
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
+				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);
+				_deck.Register(card);
+
+				card.CardBeginDrag += (sender, eventArgs) => Select(eventArgs.Card);
+				card.CardEndDrag += (sender, eventArgs) => DeselectAll();
+			}
+		}
+
 		public void Highlight(HexagonTile hexagonTile)
 		{
 			if (hexagonTile == null) return;
@@ -126,6 +142,7 @@ namespace DAE.GameSystem
 		public void Execute(HexagonTile hexagonTile)
 		{
 			_deck.PlayCard(SelectedCard, PlayerPiece, hexagonTile);
+			DeselectAll();
 		}
 
 		public void UnhighlightAll()
@@ -145,6 +162,12 @@ namespace DAE.GameSystem
 		{
 			_selectedCard = null;
 		}
+
+		public void Backward()
+			=> _gameStateMachine.CurrentState.Backward();
+
+		public void Forward()
+			=> _gameStateMachine.CurrentState.Forward();
 		#endregion
 	}
 }

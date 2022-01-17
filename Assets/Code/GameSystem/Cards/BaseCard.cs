@@ -22,6 +22,8 @@ namespace DAE.GameSystem.Cards
 		private RectTransform _rectTransform;
 		private Image _image;
 		private Vector3 _originalPosition = Vector3.zero;
+
+		private bool _dragging = false;
 		#endregion
 
 		#region Life Cycle
@@ -41,25 +43,58 @@ namespace DAE.GameSystem.Cards
 		#endregion
 
 		#region Methods
-		public virtual bool Execute(TPiece piece, TTile tile)
+		public virtual void Execute(TPiece piece, TTile tile, out Action forward, out Action backward)
 		{
-			gameObject.SetActive(false);
+			forward = null;
+			backward = null;
 
-			return true;
+			if (!_board.TryGetTile(piece, out TTile previousTile))
+				return;
+
+			forward = () =>
+			{
+				gameObject.SetActive(false);
+			};
+
+			backward = () =>
+			{
+				gameObject.SetActive(true);
+			};
 		}
+
+		public bool CanExecute(TTile tile)
+			=> _validTiles.Contains(tile);
 
 		public virtual List<TTile> Positions(TPiece piece, TTile tile)
 		{
 			throw new NotImplementedException();
 		}
 
-		protected void TakePiecesOnValidTiles()
+		protected Dictionary<TPiece, TTile> PiecesOnValidTiles()
 		{
+			Dictionary<TPiece, TTile> pieces = new Dictionary<TPiece, TTile>();
+
 			foreach (TTile hexagonTile in _validTiles)
 			{
 				if (_board.TryGetPiece(hexagonTile, out TPiece pieceInRange))
-					_board.Take(pieceInRange);
+					pieces.Add(pieceInRange, hexagonTile);
 			}
+
+			return pieces;
+		}
+
+		protected void TakePieces(Dictionary<TPiece, TTile> pieces)
+		{
+			foreach (KeyValuePair<TPiece, TTile> piece in pieces)
+				_board.Take(piece.Key);
+		}
+
+		protected void PlacePieces(Dictionary<TPiece, TTile> pieces)
+		{
+			foreach (KeyValuePair<TPiece, TTile> piece in pieces)
+			{
+				_board.Place(piece.Key, piece.Value);
+			}	
 		}
 
 		protected void RemoveValidTiles()
@@ -87,21 +122,29 @@ namespace DAE.GameSystem.Cards
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
+			if (!GameLoop.Instance.InPlayState) return;
+
 			_originalPosition = _rectTransform.position;
 			_image.raycastTarget = false;
+			_dragging = true;
 
 			OnCardBeginDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
+			if (!_dragging) return;
+
 			_rectTransform.transform.position = eventData.position;
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
+			if (!_dragging) return;
+
 			_rectTransform.position = _originalPosition;
 			_image.raycastTarget = true;
+			_dragging = false;
 
 			OnCardEndDrag(new CardEventArgs<BaseCard<TPiece, TTile>>(this));
 		}
