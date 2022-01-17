@@ -19,6 +19,9 @@ namespace DAE.GameSystem
 		[SerializeField] private Transform _deckTransform = null;
 
 		[SerializeField] private int _deckSize = 25;
+
+		[SerializeField] private GameObject _welcomeScreen = null;
+		[SerializeField] private GameObject _endScreen = null;
 		#endregion
 
 		#region Properties
@@ -43,10 +46,11 @@ namespace DAE.GameSystem
 			ReplayManager replayManager = new ReplayManager();
 
 			_gameStateMachine = new StateMachine<GameStateBase>();
-			_gameStateMachine.Register(GameStateBase.PlayingState, new PlayingGameState(_gameStateMachine, _board, _grid, replayManager));
+			_gameStateMachine.Register(GameStateBase.PlayingState, new PlayingGameState(_gameStateMachine, _board, replayManager, this));
 			_gameStateMachine.Register(GameStateBase.ReplayingState, new ReplayGameState(_gameStateMachine, replayManager));
+			_gameStateMachine.Register(GameStateBase.StartState, new StartGameState(_gameStateMachine, _welcomeScreen));
 
-			_gameStateMachine.InitialState = GameStateBase.PlayingState;
+			_gameStateMachine.InitialState = GameStateBase.StartState;
 
 			PlaceTiles(hexagonalGrid);
 			RegisterTiles(hexagonalGrid, _grid);
@@ -58,11 +62,6 @@ namespace DAE.GameSystem
 			_board.PiecePlaced += (sender, eventArgs) => eventArgs.Piece.PlaceAt(eventArgs.AtTile);
 			_board.PieceTaken += (sender, eventArgs) => eventArgs.Piece.TakeFrom(eventArgs.FromTile);
 			_board.PieceTaken += (sender, eventArgs) => CheckIfPlayerSurvived(eventArgs);
-
-			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid, replayManager);
-
-			SpawnCards();
-			_deck.FillHand();
 		}
 		#endregion
 
@@ -119,6 +118,13 @@ namespace DAE.GameSystem
 			}
 		}
 
+		public void GenerateDeck(ReplayManager replayManager)
+		{
+			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid, replayManager);
+
+			SpawnCards();
+			_deck.FillHand();
+		}
 		private void SpawnCards()
 		{
 			for (int i = 0; i < _deckSize; i++)
@@ -177,6 +183,11 @@ namespace DAE.GameSystem
 		{
 			if (eventArgs.Piece == PlayerPiece)
 				Debug.Log("player taken");
+		}
+
+		public void ChangeToPlayState()
+		{
+			_gameStateMachine.MoveTo(GameStateBase.PlayingState);
 		}
 		#endregion
 	}

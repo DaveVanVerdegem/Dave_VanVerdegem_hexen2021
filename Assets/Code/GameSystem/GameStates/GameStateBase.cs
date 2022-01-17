@@ -11,6 +11,8 @@ namespace DAE.GameSystem.GameStates
 	{
 		public const string PlayingState = "playing";
 		public const string ReplayingState = "replaying";
+		public const string StartState = "startscreen";
+		public const string EndState = "endstate";
 
 		private StateMachine<GameStateBase> _stateMachine;
 

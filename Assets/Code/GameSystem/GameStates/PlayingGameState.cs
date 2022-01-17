@@ -1,4 +1,5 @@
 ﻿using DAE.BoardSystem;
+using DAE.GameSystem.Cards;
 using DAE.ReplaySystem;
 using DAE.StateSystem;
 using System;
@@ -12,17 +13,20 @@ namespace DAE.GameSystem.GameStates
 	class PlayingGameState : GameStateBase
 	{
 		private Board<Piece<HexagonTile>, HexagonTile> _board;
-		private Grid<HexagonTile> _grid;
+		private ReplayManager _replayManager;
+		private GameLoop _gameLoop;
 
-		public PlayingGameState(StateMachine<GameStateBase> stateMachine, Board<Piece<HexagonTile>, HexagonTile> board, Grid<HexagonTile> grid, ReplayManager replayManager) : base(stateMachine)
+
+		public PlayingGameState(StateMachine<GameStateBase> stateMachine, Board<Piece<HexagonTile>, HexagonTile> board, ReplayManager replayManager, GameLoop gameLoop) : base(stateMachine)
 		{
 			_board = board;
-			_grid = grid;
-
+			_replayManager = replayManager;
+			_gameLoop = gameLoop;
 		}
 
 		public override void OnEnter()
 		{
+			_gameLoop.GenerateDeck(_replayManager);
 			_board.PieceMoved += OnPieceMoved;
 		}
 
