@@ -17,6 +17,8 @@ namespace DAE.GameSystem
 
 		[SerializeField] private List<BaseCard<Piece<HexagonTile>,HexagonTile>> _cardPrefabs = new List<BaseCard<Piece<HexagonTile>, HexagonTile>>();
 		[SerializeField] private Transform _deckTransform = null;
+
+		[SerializeField] private int _deckSize = 25;
 		#endregion
 
 		#region Properties
@@ -37,7 +39,6 @@ namespace DAE.GameSystem
 		#region Life Cycle
 		private void Start()
 		{
-			//Board<Piece<HexagonTile>, HexagonTile> board = new Board<Piece<HexagonTile>, HexagonTile>();
 			HexagonalGrid hexagonalGrid = new HexagonalGrid(_helper.GridRadius);
 			ReplayManager replayManager = new ReplayManager();
 
@@ -117,7 +118,7 @@ namespace DAE.GameSystem
 
 		private void SpawnCards()
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < _deckSize; i++)
 			{
 				BaseCard<Piece<HexagonTile>, HexagonTile> cardPrefab = _cardPrefabs[UnityEngine.Random.Range(0, _cardPrefabs.Count)];
 				BaseCard<Piece<HexagonTile>, HexagonTile> card = Instantiate(cardPrefab, _deckTransform);

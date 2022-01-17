@@ -97,9 +97,9 @@ namespace DAE.GameSystem.Cards
 			}	
 		}
 
-		protected void RemoveValidTiles()
+		protected void RemoveTiles(List<TTile> tiles)
 		{
-			foreach (TTile hexagonTile in _validTiles)
+			foreach (TTile hexagonTile in tiles)
 			{
 				hexagonTile.Remove();
 				_board.RemoveTile(hexagonTile);
