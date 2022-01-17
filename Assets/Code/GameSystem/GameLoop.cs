@@ -49,6 +49,7 @@ namespace DAE.GameSystem
 			_gameStateMachine.Register(GameStateBase.PlayingState, new PlayingGameState(_gameStateMachine, _board, replayManager, this));
 			_gameStateMachine.Register(GameStateBase.ReplayingState, new ReplayGameState(_gameStateMachine, replayManager));
 			_gameStateMachine.Register(GameStateBase.StartState, new StartGameState(_gameStateMachine, _welcomeScreen));
+			_gameStateMachine.Register(GameStateBase.EndState, new EndGameState(_gameStateMachine, _endScreen));
 
 			_gameStateMachine.InitialState = GameStateBase.StartState;
 
@@ -182,7 +183,11 @@ namespace DAE.GameSystem
 		private void CheckIfPlayerSurvived(PieceTakenEventArgs<Piece<HexagonTile>, HexagonTile> eventArgs)
 		{
 			if (eventArgs.Piece == PlayerPiece)
+			{
 				Debug.Log("player taken");
+				_gameStateMachine.MoveTo(GameStateBase.EndState);
+			}
+				
 		}
 
 		public void ChangeToPlayState()

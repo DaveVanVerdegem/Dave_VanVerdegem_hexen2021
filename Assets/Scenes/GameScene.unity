@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5949620590528366204, guid: d665e330f72d8824fa49aa691a2341eb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8145417455906864352, guid: d665e330f72d8824fa49aa691a2341eb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -240,6 +244,11 @@ PrefabInstance:
 --- !u!1 &402238942 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5949620590528366204, guid: d665e330f72d8824fa49aa691a2341eb, type: 3}
+  m_PrefabInstance: {fileID: 402238941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &402238943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 194581117443588963, guid: d665e330f72d8824fa49aa691a2341eb, type: 3}
   m_PrefabInstance: {fileID: 402238941}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &544924235
@@ -519,6 +528,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -685969063455110086, guid: 199ad59b12608294583840e0fb543f6c, type: 3}
+      propertyPath: _endScreen
+      value: 
+      objectReference: {fileID: 402238943}
     - target: {fileID: -685969063455110086, guid: 199ad59b12608294583840e0fb543f6c, type: 3}
       propertyPath: _deckTransform
       value: 
