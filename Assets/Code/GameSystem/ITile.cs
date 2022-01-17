@@ -2,5 +2,6 @@
 {
     public interface ITile
     {
+        void Remove();
     }
 }

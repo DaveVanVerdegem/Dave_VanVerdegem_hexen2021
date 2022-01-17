@@ -19,7 +19,8 @@ namespace DAE.GameSystem.Cards
 		{
 			if (!_validTiles.Contains(tile)) return false;
 
-			_board.Move(piece, tile);
+			TakePiecesOnValidTiles();
+			RemoveValidTiles();
 
 			base.Execute(piece, tile);
 

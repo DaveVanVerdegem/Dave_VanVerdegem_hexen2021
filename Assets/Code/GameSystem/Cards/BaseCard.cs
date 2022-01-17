@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace DAE.GameSystem.Cards
 {
-	public class BaseCard<TPiece, TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, ICard<TPiece, TTile>
+	public class BaseCard<TPiece, TTile> : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, ICard<TPiece, TTile> where TTile : ITile
 	{
 		#region Properties
 		public event EventHandler<CardEventArgs<BaseCard<TPiece, TTile>>> CardBeginDrag;
@@ -59,6 +59,15 @@ namespace DAE.GameSystem.Cards
 			{
 				if (_board.TryGetPiece(hexagonTile, out TPiece pieceInRange))
 					_board.Take(pieceInRange);
+			}
+		}
+
+		protected void RemoveValidTiles()
+		{
+			foreach (TTile hexagonTile in _validTiles)
+			{
+				hexagonTile.Remove();
+				_board.RemoveTile(hexagonTile);
 			}
 		}
 		#endregion

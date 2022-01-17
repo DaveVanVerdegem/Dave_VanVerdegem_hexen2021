@@ -52,6 +52,11 @@ namespace DAE.BoardSystem
 			if (_pieces.Remove(piece))
 				OnPieceTaken(new PieceTakenEventArgs<TPiece, TTile>(piece, fromPosition));
 		} 
+
+		public void RemoveTile(TTile tile)
+		{
+			_pieces.Remove(tile);
+		}
 		#endregion
 
 		#region Events

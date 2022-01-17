@@ -66,6 +66,11 @@ namespace DAE.GameSystem
 		{
 			GameLoop.Instance.Execute(this);
 		}
+
+		public void Remove()
+		{
+			gameObject.SetActive(false);
+		}
 		#endregion
 	}
 
