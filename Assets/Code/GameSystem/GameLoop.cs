@@ -54,6 +54,11 @@ namespace DAE.GameSystem
 			SpawnPlayer();
 			SpawnEnemies();
 
+			_board.PieceMoved += (sender, eventArgs) => eventArgs.Piece.MoveTo(eventArgs.ToTile);
+			_board.PiecePlaced += (sender, eventArgs) => eventArgs.Piece.PlaceAt(eventArgs.AtTile);
+			_board.PieceTaken += (sender, eventArgs) => eventArgs.Piece.TakeFrom(eventArgs.FromTile);
+			_board.PieceTaken += (sender, eventArgs) => CheckIfPlayerSurvived(eventArgs);
+
 			_deck = new Deck<BaseCard<Piece<HexagonTile>, HexagonTile>, Piece<HexagonTile>, HexagonTile>(_board, _grid, replayManager);
 
 			SpawnCards();
@@ -104,9 +109,7 @@ namespace DAE.GameSystem
 				Piece<HexagonTile> piece = Instantiate(piecePrefab, tile.transform.position, Quaternion.identity);
 				_board.Place(piece, tile);
 
-				_board.PieceMoved += (sender, eventArgs) => eventArgs.Piece.MoveTo(eventArgs.ToTile);
-				_board.PiecePlaced += (sender, eventArgs) => eventArgs.Piece.PlaceAt(eventArgs.AtTile);
-				_board.PieceTaken += (sender, eventArgs) => eventArgs.Piece.TakeFrom(eventArgs.FromTile);
+
 
 				return piece;
 			}
@@ -169,6 +172,12 @@ namespace DAE.GameSystem
 
 		public void Forward()
 			=> _gameStateMachine.CurrentState.Forward();
+
+		private void CheckIfPlayerSurvived(PieceTakenEventArgs<Piece<HexagonTile>, HexagonTile> eventArgs)
+		{
+			if (eventArgs.Piece == PlayerPiece)
+				Debug.Log("player taken");
+		}
 		#endregion
 	}
 }
